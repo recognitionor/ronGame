@@ -9,9 +9,10 @@ import androidx.compose.material.Surface
 import androidx.compose.material.lightColors
 import androidx.compose.ui.graphics.Color
 import com.jhlee.rongame.ui.theme.MyApp
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,6 +23,5 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-
     }
 }

@@ -3,4 +3,13 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="title">아들을 위해 만든 게임</string>
+//
+    <string name="user_info_name_title">이름 : %s</string>
+    <string name="user_info_money_title">내가 가진돈 : </string>
+    <string name="money_unit">%d원</string>
+    <string name="card_gatcha_title">카드 뽑기</string>
+    <string name="card_gatcha_grade_title">Grade(등급) : </string>
+    <string name="card_gatcha_power_title">Power(파워) : </string>
+    <string name="card_gatcha_cost_title">Cost(비용) : </string>
 </resources>
