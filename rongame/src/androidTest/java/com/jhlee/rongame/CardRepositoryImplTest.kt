@@ -36,7 +36,7 @@ class CardRepositoryImplTest {
         dao = db.cardDao()
 
         // 테스트할 Repository 생성
-        repository = CardRepositoryImpl(dao)
+        repository = CardRepositoryImpl(db.cardDao(), db.heroDao())
         useCase = CreateCardUseCase(repository)
     }
 
@@ -49,7 +49,7 @@ class CardRepositoryImplTest {
     @Test
     fun testCreateCard() = runBlockingTest {
         // Arrange
-        val hero = Hero(1, "", "", "", 1, 1, 1, 1)
+        val hero = Hero(1, "", "", "", 1, 1, 1, 1, 1)
         val card = Card(1, "", 1, 1, hero)
 
         // Act

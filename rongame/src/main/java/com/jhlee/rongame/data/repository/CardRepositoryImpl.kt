@@ -14,7 +14,6 @@ import javax.inject.Inject
 class CardRepositoryImpl @Inject constructor(
     private val cardDao: DBCardDao, private val heroDao: DBHeroDao
 ) : CardRepository<Card> {
-
     override suspend fun createCard(card: Card): Card {
         val id = cardDao.create(DBCard(card.name, card.cost, card.grade, card.hero.id))
         card.id = id.toInt()
