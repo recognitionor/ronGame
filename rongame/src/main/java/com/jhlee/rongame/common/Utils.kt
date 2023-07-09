@@ -7,7 +7,7 @@ class Utils {
     companion object {
         fun getPower(card: Card): Int {
             val hero = card.hero
-            return ((card.grade + 1) * (hero.attack + hero.defense + hero.speed + hero.hp + hero.mp))
+            return (hero.attack + hero.defense + hero.speed + hero.hp + hero.mp)
         }
     }
 }

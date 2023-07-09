@@ -4,7 +4,9 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="title">아들을 위해 만든 게임</string>
-//
+    //
+    <string name="user_info_edit_name_title">이름이 뭐에요?: </string>
+
     <string name="user_info_name_title">이름 : %s</string>
     <string name="user_info_money_title">내가 가진돈 : </string>
     <string name="money_unit">%d원</string>
@@ -12,4 +14,13 @@
     <string name="card_gatcha_grade_title">Grade(등급) : </string>
     <string name="card_gatcha_power_title">Power(파워) : </string>
     <string name="card_gatcha_cost_title">Cost(비용) : </string>
+    <string name="card_gatcha_no_money">돈이 없어요 ㅠㅠ</string>
+
+    <string name="card_gatcha_done">카드가 뽑혔습니다.</string>
+    <string name="card_detail_title">카드 상세 정보</string>
+    <string name="card_detail_att">공격 : %d</string>
+    <string name="card_detail_def">방어 : %d</string>
+    <string name="card_detail_spd">속도 : %d</string>
+    <string name="card_detail_hp">체력 : %d</string>
+    <string name="card_detail_mp">정신력 : %d</string>
 </resources>

@@ -16,5 +16,5 @@ interface DBUserInfoDao {
     suspend fun getUserInfo(): DBUserInfo
 
     @Update
-    suspend fun updateUserInfo(user: DBUserInfo)
+    suspend fun updateUserInfo(user: DBUserInfo): Int
 }

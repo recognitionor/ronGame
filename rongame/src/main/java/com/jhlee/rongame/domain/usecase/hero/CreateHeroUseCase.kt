@@ -15,9 +15,9 @@ class CreateHeroUseCase @Inject constructor(private val repository: HeroReposito
         try {
             var count = GatchaConst.DELAY_TIME
             while (count > 0) {
-                delay(10)
+                delay(1)
                 emit(Resource.Loading<List<Hero>>())
-                count = count.minus(1)
+                count = count.minus(10)
             }
 
 

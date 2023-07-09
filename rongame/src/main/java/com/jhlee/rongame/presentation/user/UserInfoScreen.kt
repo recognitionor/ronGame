@@ -1,11 +1,13 @@
 package com.jhlee.rongame.presentation.user
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -13,9 +15,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.jhlee.rongame.R
 
 @Composable
-fun UserInfoScreen(viewModel: UserInfoViewModel = hiltViewModel()) {
+fun UserInfoScreen(viewModel: UserInfoViewModel) {
+
     val ctx = LocalContext.current
     val state = viewModel.state.value
+    Log.d("jhlee", "state : $state")
     Column(modifier = Modifier.padding(20.dp)) {
         Row {
             state.user?.let { user ->
@@ -28,7 +32,9 @@ fun UserInfoScreen(viewModel: UserInfoViewModel = hiltViewModel()) {
                 Text(text = ctx.getString(R.string.money_unit, user.money))
             }
         }
+        if (state.error.isNotEmpty()) {
 
+        }
         if (state.isLoading) {
             CircularProgressIndicator()
         }

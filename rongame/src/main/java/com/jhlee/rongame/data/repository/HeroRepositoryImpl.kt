@@ -14,10 +14,6 @@ class HeroRepositoryImpl @Inject constructor(private val dao: DBHeroDao) : HeroR
         val result = list.map {
             DBHeroMapper.mapToDB(it)
         }
-        result.forEach {
-            Log.d("jhlee", "createList : $it")
-        }
-
         dao.insertHero(result)
     }
 

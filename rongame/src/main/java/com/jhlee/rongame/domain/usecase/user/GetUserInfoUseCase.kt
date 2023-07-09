@@ -1,6 +1,5 @@
 package com.jhlee.rongame.domain.usecase.user
 
-import android.util.Log
 import com.jhlee.rongame.common.Resource
 import com.jhlee.rongame.domain.model.UserInfo
 import com.jhlee.rongame.domain.repository.UserRepository
@@ -15,8 +14,8 @@ class GetUserInfoUseCase @Inject constructor(
     operator fun invoke(): Flow<Resource<UserInfo>> = flow {
         try {
             emit(Resource.Loading<UserInfo>())
-            val coin = repository.getCard()
-            emit(Resource.Success<UserInfo>(coin))
+            val userInfo = repository.getUserInfo()
+            emit(Resource.Success<UserInfo>(userInfo))
         } catch (e: Exception) {
             emit(Resource.Error<UserInfo>(e.localizedMessage ?: "error"))
         }
