@@ -2,31 +2,25 @@ package com.jhlee.rongame.data.local.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import com.jhlee.rongame.domain.model.Card
-import com.jhlee.rongame.domain.model.Hero
-import com.jhlee.rongame.domain.model.UserInfo
 
-@Entity(
-    foreignKeys = [
-        ForeignKey(
-            entity = DBHero::class,
-            parentColumns = ["id"],
-            childColumns = ["heroId"],
-            onDelete = ForeignKey.CASCADE
-        )
-    ]
-)
+@Entity
 data class DBCard(
     @ColumnInfo(name = "name") val name: String,
     @ColumnInfo(name = "cost") val cost: Int,
     @ColumnInfo(name = "grade") val grade: Int,
-    @ColumnInfo(name = "heroId") val heroId: Int,
+    @ColumnInfo(name = "image") val image: String,
+    @ColumnInfo(name = "type") val type: String,
+    @ColumnInfo(name = "attack") val attack: Int,
+    @ColumnInfo(name = "defense") val defense: Int,
+    @ColumnInfo(name = "speed") val speed: Int,
+    @ColumnInfo(name = "hp") val hp: Int,
+    @ColumnInfo(name = "mp") val mp: Int,
 
     @PrimaryKey(autoGenerate = true) val id: Int = 0
 )
 
-fun DBCard.toCard(hero: Hero): Card {
-    return Card(id, name, cost, grade, hero)
+fun DBCard.toCard(): Card {
+    return Card(id, name, cost, grade, image, type, attack, defense, speed, hp, mp)
 }

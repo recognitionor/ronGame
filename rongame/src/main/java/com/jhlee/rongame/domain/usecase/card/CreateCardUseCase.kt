@@ -6,12 +6,10 @@ import com.jhlee.rongame.common.constants.GatchaConst
 import com.jhlee.rongame.common.constants.HeroConst
 import com.jhlee.rongame.data.local.InitData
 import com.jhlee.rongame.domain.model.Card
-import com.jhlee.rongame.domain.model.Hero
 import com.jhlee.rongame.domain.repository.CardRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.io.IOException
-import java.util.Collections
 import javax.inject.Inject
 import kotlin.random.Random
 
@@ -19,7 +17,7 @@ class CreateCardUseCase @Inject constructor(
     private val repository: CardRepository<Card>
 ) {
 
-    private fun distributePoints(grade: Int, hero: Hero): Hero {
+    private fun distributePoints(grade: Int, card: Card): Card {
         var totalPoint = 0
         when (grade) {
             0 -> totalPoint = 10
@@ -43,7 +41,7 @@ class CreateCardUseCase @Inject constructor(
             pointList.add(random)
         }
         pointList.shuffle()
-        return hero.copy(
+        return card.copy(
             attack = pointList[0] ?: 0,
             defense = pointList[1] ?: 0,
             speed = pointList[2] ?: 0,
@@ -63,7 +61,7 @@ class CreateCardUseCase @Inject constructor(
                 count = count.minus(offsetTime.toInt())
             }
 
-            var hero = HeroConst.HERO_LIST[(Math.random() * InitData.heroList.size).toInt()]
+            val hero = InitData.heroList[(Math.random() * InitData.heroList.size).toInt()]
             val cost = when ((Math.random() * 101).toInt()) {
                 in 1..10 -> 1
                 in 11..50 -> 2
@@ -80,12 +78,21 @@ class CreateCardUseCase @Inject constructor(
                 in 98..99 -> 5
                 else -> 6
             }
-            hero = distributePoints(grade, hero)
-            Log.d("jhlee", "hero : $hero")
-
-            val card = Card(0, name = hero.name, cost = cost, grade = grade, hero = hero)
+            var card = Card(
+                0,
+                name = hero.name,
+                cost = cost,
+                grade = grade,
+                image = hero.image,
+                hero.type,
+                0,
+                0,
+                0,
+                0,
+                0
+            )
+            card = distributePoints(grade, card)
             emit(Resource.Success<Card>(repository.createCard(card)))
-
         } catch (e: IOException) {
             emit(Resource.Error<Card>(e.localizedMessage as String))
         }

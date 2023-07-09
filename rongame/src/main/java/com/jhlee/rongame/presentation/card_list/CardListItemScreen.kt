@@ -1,7 +1,5 @@
-package com.jhlee.rongame.presentation.card
+package com.jhlee.rongame.presentation.card_list
 
-import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -18,6 +16,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,69 +30,35 @@ import androidx.compose.ui.unit.sp
 import com.jhlee.rongame.R
 import com.jhlee.rongame.common.Utils
 import com.jhlee.rongame.common.constants.GradeConst
-import com.jhlee.rongame.presentation.card_list.CardListItemScreen
+import com.jhlee.rongame.domain.model.Card
+import com.jhlee.rongame.presentation.card.CardDetailDialog
 import com.jhlee.rongame.presentation.common.StarRatingBar
-import com.jhlee.rongame.presentation.user.UserInfoViewModel
-import com.jhlee.rongame.presentation.user.UserState
 
 @Composable
-fun CardScreen(
-    cardViewModel: CardViewModel, userInfoViewModel: UserInfoViewModel, height: Float
-) {
+fun CardListItemScreen(card: Card, height: Float, cardListViewModel: CardListViewModel) {
     val ctx = LocalContext.current
+    val showInfoDialog = remember { mutableStateOf(false) }
     val cardWidth = (height * 0.8)
-    val userStateValue: UserState = userInfoViewModel.state.value
-    val cardStateValue: CardState = cardViewModel.state.value
-    val isLoading = cardStateValue.isLoading
-    var color: Color = GradeConst.TYPE_MAP[0]!!.color
-    var powerStr = "?"
-    var costStr = "?"
-    var nameStr = "???"
-    var gradeStr = "?"
-    var textColor = Color.Black
-    var cardImg: String = R.drawable.ic_contact_support.toString()
-    val showInfoDialog = cardViewModel.showInfoDialog.value
+    val cardImg: String = card.image
 
+    val powerStr: String = Utils.getPower(card).toString()
+    val costStr: String = card.cost.toString()
 
-    if (cardStateValue.card != null) {
-        if (!cardStateValue.isLoadDone) {
-            Toast.makeText(ctx, ctx.getString(R.string.card_gatcha_done), Toast.LENGTH_SHORT).show()
-            userInfoViewModel.getUser()
+    val nameStr: String = card.name
+    val gradeStr: String = (card.grade + 1).toString()
+    val color: Color = GradeConst.TYPE_MAP[card.grade]!!.color
+    val textColor: Color = Color.Black
+
+    Card(modifier = Modifier
+        .run {
+            size(width = cardWidth.dp, height = height.dp)
+                .padding(4.dp)
+                .border(width = 2.dp, color = color, shape = RoundedCornerShape(8.dp))
+                .clickable {}
         }
-        powerStr = Utils.getPower(cardStateValue.card).toString()
-        costStr = cardStateValue.card.cost.toString()
-        cardImg = cardStateValue.card.image
-        nameStr = cardStateValue.card.name
-        gradeStr = (cardStateValue.card.grade + 1).toString()
-        color = GradeConst.TYPE_MAP[cardStateValue.card.grade]!!.color
-        textColor = Color.Black
-        cardViewModel.setFlagCardStateLoadDone()
-    }
-
-    if (isLoading) {
-        val index = (cardStateValue.progress % GradeConst.TYPE_MAP.size)
-        color = GradeConst.TYPE_MAP[index]!!.color
-        textColor = color
-    }
-
-    Card(modifier = Modifier.run {
-        size(width = cardWidth.dp, height = height.dp)
-            .padding(10.dp)
-            .border(width = 4.dp, color = color, shape = RoundedCornerShape(8.dp))
-            .clickable {
-                if ((userStateValue.user?.money ?: 0) > 0) {
-                    cardViewModel.gatchaCard()
-                } else {
-                    Toast
-                        .makeText(
-                            ctx, ctx.getString(R.string.card_gatcha_no_money), Toast.LENGTH_SHORT
-                        )
-                        .show()
-                }
-            }
-    }) {
+        .clickable { showInfoDialog.value = true }) {
         Box(
-            modifier = Modifier.padding(18.dp)
+            modifier = Modifier.padding(5.dp)
         ) { // 패딩을 적용할 Box 컴포넌트 추가
             Column(
                 verticalArrangement = Arrangement.Center,
@@ -113,19 +79,19 @@ fun CardScreen(
                             Text(
                                 text = "${ctx.getString(R.string.card_gatcha_grade_title)} $gradeStr",
                                 textAlign = TextAlign.Right,
-                                fontSize = 14.sp,
+                                fontSize = 8.sp,
                                 color = textColor
                             )
                             Text(
                                 text = "${ctx.getString(R.string.card_gatcha_power_title)} $powerStr",
                                 textAlign = TextAlign.Right,
-                                fontSize = 14.sp,
+                                fontSize = 8.sp,
                                 color = textColor
                             )
                             Text(
                                 text = "${ctx.getString(R.string.card_gatcha_cost_title)} $costStr",
                                 textAlign = TextAlign.Right,
-                                fontSize = 14.sp,
+                                fontSize = 8.sp,
                                 color = textColor
                             )
                         }
@@ -137,10 +103,10 @@ fun CardScreen(
                                 .size(
                                     (cardWidth * 0.135).dp, (height * 0.135).dp
                                 )
-                                .clickable(cardStateValue.card != null) {
-                                    cardViewModel.onInfoIconClicked()
+                                .clickable {
+                                    showInfoDialog.value = true
                                 },
-                            colorFilter = if (isLoading) ColorFilter.tint(color) else null
+                            colorFilter = ColorFilter.tint(color)
                         )
                     }
 
@@ -153,22 +119,21 @@ fun CardScreen(
                         .size(
                             (cardWidth * 0.4).dp, (height * 0.4).dp
                         )
-                        .background(Color.White),
-                    colorFilter = if (isLoading) ColorFilter.tint(color) else null
+                        .background(Color.White)
                 )
                 Text(text = nameStr, textAlign = TextAlign.Center)
-                StarRatingBar(((cardStateValue.card?.grade?.plus(1)) ?: 0), color)
+                StarRatingBar(((card.grade.plus(1)) ?: 0), color, 12.dp)
             }
         }
-    }
-    // 다이얼로그 표시
-    if (showInfoDialog) {
+    }// 다이얼로그 표시
+    if (showInfoDialog.value) {
 
-        cardStateValue.card?.let {
-            CardDetailDialog(
-                it
-            ) { cardViewModel.onInfoDialogDismissed() }
-        } // 다이얼로그 닫기 함수 호출
+        CardDetailDialog(
+            card
+        ) {
+            showInfoDialog.value = false
+        }
 
     }
+
 }

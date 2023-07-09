@@ -9,11 +9,12 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun StarRatingBar(
-    maxRating: Int = 5, starColor: Color = Color.Black
+    maxRating: Int = 5, starColor: Color = Color.Black, size: Dp = 25.dp
 ) {
     Row {
         repeat(maxRating) {
@@ -21,7 +22,7 @@ fun StarRatingBar(
                 imageVector = Icons.Filled.Star,
                 contentDescription = null,
                 tint = starColor, // 색상 지정
-                modifier = Modifier.size(25.dp)
+                modifier = Modifier.size(size)
             )
         }
     }

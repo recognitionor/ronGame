@@ -1,6 +1,5 @@
 package com.jhlee.rongame
 
-import android.util.Log
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -8,7 +7,6 @@ import com.jhlee.rongame.data.local.AppDatabase
 import com.jhlee.rongame.data.local.dao.DBCardDao
 import com.jhlee.rongame.data.repository.CardRepositoryImpl
 import com.jhlee.rongame.domain.model.Card
-import com.jhlee.rongame.domain.model.Hero
 import com.jhlee.rongame.domain.repository.CardRepository
 import com.jhlee.rongame.domain.usecase.card.CreateCardUseCase
 import kotlinx.coroutines.test.runBlockingTest

@@ -30,7 +30,7 @@ class CardViewModel @Inject constructor(
     val showInfoDialog: State<Boolean> = _showInfoDialog
 
     // 다이얼로그 표시 상태 변경 함수
-    fun setShowInfoDialog(value: Boolean) {
+    private fun setShowInfoDialog(value: Boolean) {
         _showInfoDialog.value = value
     }
 

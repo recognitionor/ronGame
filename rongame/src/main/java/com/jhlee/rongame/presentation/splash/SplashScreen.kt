@@ -25,12 +25,11 @@ import com.jhlee.rongame.presentation.user.UserInfoEditDialog
 fun SplashScreen(viewModel: SplashViewModel = hiltViewModel(), onFinish: () -> Unit) {
     val ctx = LocalContext.current
     val state = viewModel.state.value
-    Log.d("jhlee", "state.userInfo : ${state.userInfo}")
-    Log.d("jhlee", "state.heroList : ${state.heroList}")
     Column {
         Box(
             modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
         ) {
+            Log.d("jhlee", "state :  ${state.userInfo}")
             Column(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -40,18 +39,14 @@ fun SplashScreen(viewModel: SplashViewModel = hiltViewModel(), onFinish: () -> U
                     fontSize = 40.sp,
                     textAlign = TextAlign.Center
                 )
-                if (state.heroList.isNotEmpty()) {
-                    HeroConst.HERO_LIST = state.heroList
-
-                    if (state.userInfo == null) {
-                        UserInfoEditDialog { name ->
-                            viewModel.insertUserInfo(UserInfo(1, name, 1000))
-                        }
-                    } else {
-                        onFinish.invoke()
-                        ctx.startActivity(Intent(ctx, MainActivity::class.java))
+                if (state.userInfo == null) {
+                    UserInfoEditDialog { name ->
+                        Log.d("jhlee", "name : $name")
+                        viewModel.insertUserInfo(UserInfo(1, name, 1000))
                     }
-
+                } else {
+                    onFinish.invoke()
+                    ctx.startActivity(Intent(ctx, MainActivity::class.java))
                 }
                 if (state.isLoading) {
                     CircularProgressIndicator()

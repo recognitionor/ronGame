@@ -1,12 +1,15 @@
 package com.jhlee.rongame.presentation.card
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.AlertDialog
+import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -19,14 +22,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
 import com.jhlee.rongame.R
+import com.jhlee.rongame.common.Utils
 import com.jhlee.rongame.domain.model.Card
 
 @Composable
-fun CardDetailDialog(card: Card?, onDismiss: () -> Unit) {
+fun CardDetailDialog(card: Card, onDismiss: () -> Unit) {
     val ctx = LocalContext.current
-    val showDialog = remember { mutableStateOf(true) }
-    val inputText = remember { mutableStateOf("") }
-    AlertDialog(onDismissRequest = { onDismiss() }, title = {
+
+    AlertDialog(onDismissRequest = {
+        onDismiss()
+    }, title = {
         Text(
             text = ctx.getString(R.string.card_detail_title),
             fontSize = 18.sp,
@@ -39,29 +44,55 @@ fun CardDetailDialog(card: Card?, onDismiss: () -> Unit) {
                 modifier = Modifier.padding(bottom = 26.dp)
             ) {
                 Text(
-                    text = ctx.getString(R.string.card_detail_att, card?.hero?.attack),
+                    text = ctx.getString(R.string.card_detail_att, card?.attack),
                     fontSize = 16.sp,
                     modifier = Modifier.padding(bottom = 4.dp)
                 )
                 Text(
-                    text = ctx.getString(R.string.card_detail_def, card?.hero?.defense),
+                    text = ctx.getString(R.string.card_detail_def, card?.defense),
                     fontSize = 16.sp,
                     modifier = Modifier.padding(bottom = 4.dp)
                 )
                 Text(
-                    text = ctx.getString(R.string.card_detail_spd, card?.hero?.speed),
+                    text = ctx.getString(R.string.card_detail_spd, card?.speed),
                     fontSize = 16.sp,
                     modifier = Modifier.padding(bottom = 4.dp)
                 )
                 Text(
-                    text = ctx.getString(R.string.card_detail_hp, card?.hero?.hp),
+                    text = ctx.getString(R.string.card_detail_hp, card?.hp),
                     fontSize = 16.sp,
                     modifier = Modifier.padding(bottom = 4.dp)
                 )
                 Text(
-                    text = ctx.getString(R.string.card_detail_mp, card?.hero?.mp),
+                    text = ctx.getString(R.string.card_detail_mp, card?.mp),
                     fontSize = 16.sp,
                     modifier = Modifier.padding(bottom = 4.dp)
+                )
+            }
+            Spacer(modifier = Modifier.width(36.dp)) // 간격 조정을 위한 Spacer 추가
+
+            Column(
+                modifier = Modifier.padding(bottom = 26.dp)
+            ) {
+                Text(
+                    text = "${ctx.getString(R.string.card_gatcha_grade_title)} ${card.grade}",
+                    fontSize = 16.sp,
+                    modifier = Modifier.padding(bottom = 4.dp)
+                )
+
+                Text(
+
+                    text = "${ctx.getString(R.string.card_gatcha_power_title)} ${
+                        Utils.getPower(
+                            card
+                        )
+                    }", fontSize = 16.sp, modifier = Modifier.padding(bottom = 4.dp)
+                )
+
+                Text(
+                    text = "${ctx.getString(R.string.card_gatcha_cost_title)} ${
+                        card.cost
+                    }", fontSize = 16.sp, modifier = Modifier.padding(bottom = 4.dp)
                 )
             }
         }

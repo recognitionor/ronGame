@@ -14,8 +14,8 @@ class InsertUserInfoUseCase @Inject constructor(
     operator fun invoke(user:UserInfo): Flow<Resource<UserInfo>> = flow {
         try {
             emit(Resource.Loading<UserInfo>())
-            val coin = repository.createUserInfo(user)
-            emit(Resource.Success<UserInfo>(coin))
+            val userInfo = repository.createUserInfo(user)
+            emit(Resource.Success<UserInfo>(userInfo))
         } catch (e: Exception) {
             emit(Resource.Error<UserInfo>(e.localizedMessage ?: "error"))
         }
