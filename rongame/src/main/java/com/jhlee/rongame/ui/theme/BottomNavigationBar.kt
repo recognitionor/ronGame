@@ -16,14 +16,14 @@ import com.jhlee.rongame.R
 
 @Composable
 fun BottomNavigationBar(navController: NavHostController) {
-
+    val ctx =navController.context
     val items = listOf(
-        BottomNavigationItem("Home", painterResource(R.drawable.ic_home_black_24dp), "home"),
+        BottomNavigationItem(ctx.getString(R.string.title_gatcha), painterResource(R.drawable.ic_home_black_24dp), "home"),
         BottomNavigationItem(
-            "Search", painterResource(R.drawable.ic_dashboard_black_24dp), "search"
+            ctx.getString(R.string.title_game), painterResource(R.drawable.ic_dashboard_black_24dp), "search"
         ),
         BottomNavigationItem(
-            "Profile", painterResource(R.drawable.ic_notifications_black_24dp), "profile"
+            ctx.getString(R.string.title_mini_game), painterResource(R.drawable.ic_notifications_black_24dp), "profile"
         )
     )
     val selectedItem = remember { mutableStateOf(items[0]) }

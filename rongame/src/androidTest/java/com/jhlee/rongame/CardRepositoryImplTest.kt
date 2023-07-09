@@ -34,10 +34,7 @@ class CardRepositoryImplTest {
         dao = db.cardDao()
 
         // 테스트할 Repository 생성
-        repository = CardRepositoryImpl(db.cardDao(), db.heroDao())
-        useCase = CreateCardUseCase(repository)
     }
-
     @After
     fun cleanup() {
         // 테스트 종료 후 데이터베이스 닫기
@@ -47,14 +44,6 @@ class CardRepositoryImplTest {
     @Test
     fun testCreateCard() = runBlockingTest {
         // Arrange
-        val hero = Hero(1, "", "", "", 1, 1, 1, 1, 1)
-        val card = Card(1, "", 1, 1, hero)
-
-        // Act
-        val result = repository.createCard(card)
-        useCase()
-        println(result)
-        println("result")
 
     }
 

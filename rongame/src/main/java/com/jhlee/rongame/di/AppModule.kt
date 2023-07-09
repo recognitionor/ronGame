@@ -6,10 +6,12 @@ import com.jhlee.rongame.data.local.DatabaseBuilder
 import com.jhlee.rongame.data.local.dao.DBCardDao
 import com.jhlee.rongame.data.local.dao.DBUserInfoDao
 import com.jhlee.rongame.data.repository.CardRepositoryImpl
+import com.jhlee.rongame.data.repository.GameStageRepositoryImpl
 import com.jhlee.rongame.data.repository.UserRepositoryImpl
 import com.jhlee.rongame.domain.model.Card
 import com.jhlee.rongame.domain.model.UserInfo
 import com.jhlee.rongame.domain.repository.CardRepository
+import com.jhlee.rongame.domain.repository.GameStageRepository
 import com.jhlee.rongame.domain.repository.UserRepository
 import dagger.Module
 import dagger.Provides
@@ -34,6 +36,12 @@ class AppModule {
     @Singleton
     fun provideLocalUserInfoRepository(dao: DBUserInfoDao): UserRepository<UserInfo> {
         return UserRepositoryImpl(dao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideLocalGameStageRepository(): GameStageRepository {
+        return GameStageRepositoryImpl()
     }
 
 

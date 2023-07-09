@@ -28,6 +28,24 @@ class UserInfoViewModel @Inject constructor(
         getUser()
     }
 
+    fun updateUserInfoMoney(minusValue: Int) {
+        updateUserMoneyUseCase(minusValue).onEach { result ->
+            when (result) {
+                is Resource.Success -> {
+                    _state.value = UserState(isLoading = false, result.data)
+                }
+
+                is Resource.Loading -> {
+                    _state.value = UserState(isLoading = true)
+                }
+
+                is Resource.Error -> {
+                    _state.value = UserState(isLoading = false, error = result.message ?: "error")
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
     fun getUser() {
         getUserInfoUseCase().onEach { result ->
             when (result) {

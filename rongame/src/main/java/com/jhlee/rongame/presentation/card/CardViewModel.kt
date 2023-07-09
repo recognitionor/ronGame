@@ -52,7 +52,7 @@ class CardViewModel @Inject constructor(
     }
 
     private fun updateUserInfo() {
-        updateUserInfoUseCase().onEach { result ->
+        updateUserInfoUseCase(1).onEach { result ->
             when (result) {
                 is Resource.Success -> {
                     refreshUserInfo()

@@ -1,6 +1,5 @@
 package com.jhlee.rongame.presentation.card
 
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -30,7 +29,6 @@ import androidx.compose.ui.unit.sp
 import com.jhlee.rongame.R
 import com.jhlee.rongame.common.Utils
 import com.jhlee.rongame.common.constants.GradeConst
-import com.jhlee.rongame.presentation.card_list.CardListItemScreen
 import com.jhlee.rongame.presentation.common.StarRatingBar
 import com.jhlee.rongame.presentation.user.UserInfoViewModel
 import com.jhlee.rongame.presentation.user.UserState
