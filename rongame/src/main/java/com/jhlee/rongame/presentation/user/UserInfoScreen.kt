@@ -19,7 +19,6 @@ fun UserInfoScreen(viewModel: UserInfoViewModel) {
 
     val ctx = LocalContext.current
     val state = viewModel.state.value
-    Log.d("jhlee", "state : $state")
     Column(modifier = Modifier.padding(20.dp)) {
         Row {
             state.user?.let { user ->

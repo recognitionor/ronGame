@@ -39,27 +39,27 @@ fun CardDetailDialog(card: Card, onDismiss: () -> Unit) {
                 modifier = Modifier.padding(bottom = 26.dp)
             ) {
                 Text(
-                    text = ctx.getString(R.string.card_detail_att, card?.attack),
+                    text = ctx.getString(R.string.card_detail_att, card.attack),
                     fontSize = 16.sp,
                     modifier = Modifier.padding(bottom = 4.dp)
                 )
                 Text(
-                    text = ctx.getString(R.string.card_detail_def, card?.defense),
+                    text = ctx.getString(R.string.card_detail_def, card.defense),
                     fontSize = 16.sp,
                     modifier = Modifier.padding(bottom = 4.dp)
                 )
                 Text(
-                    text = ctx.getString(R.string.card_detail_spd, card?.speed),
+                    text = ctx.getString(R.string.card_detail_spd, card.speed),
                     fontSize = 16.sp,
                     modifier = Modifier.padding(bottom = 4.dp)
                 )
                 Text(
-                    text = ctx.getString(R.string.card_detail_hp, card?.hp),
+                    text = ctx.getString(R.string.card_detail_hp, card.hp),
                     fontSize = 16.sp,
                     modifier = Modifier.padding(bottom = 4.dp)
                 )
                 Text(
-                    text = ctx.getString(R.string.card_detail_mp, card?.mp),
+                    text = ctx.getString(R.string.card_detail_mp, card.mp),
                     fontSize = 16.sp,
                     modifier = Modifier.padding(bottom = 4.dp)
                 )
@@ -70,7 +70,7 @@ fun CardDetailDialog(card: Card, onDismiss: () -> Unit) {
                 modifier = Modifier.padding(bottom = 26.dp)
             ) {
                 Text(
-                    text = "${ctx.getString(R.string.card_gatcha_grade_title)} ${card.grade}",
+                    text = "${ctx.getString(R.string.card_gatcha_grade_title)} ${card.grade + 1}",
                     fontSize = 16.sp,
                     modifier = Modifier.padding(bottom = 4.dp)
                 )

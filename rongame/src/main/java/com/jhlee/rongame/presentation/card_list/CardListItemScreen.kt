@@ -35,7 +35,12 @@ import com.jhlee.rongame.presentation.card.CardDetailDialog
 import com.jhlee.rongame.presentation.common.StarRatingBar
 
 @Composable
-fun CardListItemScreen(card: Card, height: Float, cardListViewModel: CardListViewModel) {
+fun CardListItemScreen(
+    card: Card,
+    height: Float,
+    selected: Boolean = false,
+    onItemClick: ((card: Card) -> Unit)? = null
+) {
     val ctx = LocalContext.current
     val showInfoDialog = remember { mutableStateOf(false) }
     val cardWidth = (height * 0.8)
@@ -54,12 +59,20 @@ fun CardListItemScreen(card: Card, height: Float, cardListViewModel: CardListVie
             size(width = cardWidth.dp, height = height.dp)
                 .padding(4.dp)
                 .border(width = 2.dp, color = color, shape = RoundedCornerShape(8.dp))
-                .clickable {}
         }
-        .clickable { showInfoDialog.value = true }) {
+        .clickable {
+            if (onItemClick == null) {
+                showInfoDialog.value = true
+            } else {
+                onItemClick(card)
+            }
+        }) {
         Box(
             modifier = Modifier.padding(5.dp)
-        ) { // 패딩을 적용할 Box 컴포넌트 추가
+        ) {
+
+
+            // 패딩을 적용할 Box 컴포넌트 추가
             Column(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -69,6 +82,17 @@ fun CardListItemScreen(card: Card, height: Float, cardListViewModel: CardListVie
                         .fillMaxWidth()
                         .wrapContentHeight()
                 ) {
+                    if (selected) {
+                        Image(
+                            modifier = Modifier
+                                .size(100.dp)
+                                .align(Alignment.TopEnd),
+                            painter = painterResource(id = R.drawable.ic_done),
+                            contentDescription = "Selected",
+                            colorFilter = ColorFilter.tint(color)
+                        )
+                    }
+
                     Row(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
@@ -109,8 +133,6 @@ fun CardListItemScreen(card: Card, height: Float, cardListViewModel: CardListVie
                             colorFilter = ColorFilter.tint(color)
                         )
                     }
-
-
                 }
                 Image(
                     painter = painterResource(id = cardImg.toInt()),
@@ -127,10 +149,7 @@ fun CardListItemScreen(card: Card, height: Float, cardListViewModel: CardListVie
         }
     }// 다이얼로그 표시
     if (showInfoDialog.value) {
-
-        CardDetailDialog(
-            card
-        ) {
+        CardDetailDialog(card) {
             showInfoDialog.value = false
         }
 

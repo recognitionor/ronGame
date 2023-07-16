@@ -18,7 +18,7 @@ fun CardListScreen(cardListViewModel: CardListViewModel) {
 
             val card = state.cardList[index]
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-                CardListItemScreen(card = card, height = 180f, cardListViewModel)
+                CardListItemScreen(card = card, height = 180f)
             }
         }
     }

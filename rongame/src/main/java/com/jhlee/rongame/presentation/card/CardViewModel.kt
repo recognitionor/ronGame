@@ -47,7 +47,6 @@ class CardViewModel @Inject constructor(
     }
 
     private fun refreshUserInfo() {
-        Log.d("jhlee", "refreshUserInfo")
         getUserInfoUseCase().onEach { }.launchIn(viewModelScope)
     }
 

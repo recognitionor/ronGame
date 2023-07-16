@@ -19,18 +19,23 @@ package com.jhlee.rongame.data.local
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.jhlee.rongame.data.local.dao.DBCardDao
+import com.jhlee.rongame.data.local.dao.DBGameStageDao
 import com.jhlee.rongame.data.local.dao.DBUserInfoDao
 import com.jhlee.rongame.data.local.entity.DBCard
+import com.jhlee.rongame.data.local.entity.DBGameStage
 import com.jhlee.rongame.data.local.entity.DBUserInfo
 
 /**
  * The Room database for this app
  */
 @Database(
-    entities = [DBUserInfo::class, DBCard::class], version = 1, exportSchema = false
+    entities = [DBUserInfo::class, DBCard::class, DBGameStage::class],
+    version = 2,
+    exportSchema = false
 )
 
 abstract class AppDatabase : RoomDatabase() {
     abstract fun cardDao(): DBCardDao
     abstract fun userDao(): DBUserInfoDao
+    abstract fun gameStageDao(): DBGameStageDao
 }

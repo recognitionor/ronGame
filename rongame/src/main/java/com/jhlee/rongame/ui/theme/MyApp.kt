@@ -5,9 +5,10 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.jhlee.rongame.presentation.game.GameStageListScreen
+import com.jhlee.rongame.presentation.ProfileScreen
 import com.jhlee.rongame.presentation.game.GameScreen
 import com.jhlee.rongame.presentation.home.HomeScreen
-import com.jhlee.rongame.presentation.ProfileScreen
 
 @Composable
 fun MyApp() {
@@ -19,9 +20,10 @@ fun MyApp() {
         NavHost(navController = navController, startDestination = "home") {
             composable("home") {
                 HomeScreen()
+//                GameScreen()
             }
             composable("search") {
-                GameScreen()
+                GameStageListScreen()
             }
             composable("profile") {
                 ProfileScreen()
@@ -29,3 +31,5 @@ fun MyApp() {
         }
     }
 }
+
+

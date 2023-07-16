@@ -1,5 +1,6 @@
 package com.jhlee.rongame.domain.usecase.user
 
+import android.util.Log
 import com.jhlee.rongame.common.Resource
 import com.jhlee.rongame.domain.model.UserInfo
 import com.jhlee.rongame.domain.repository.UserRepository

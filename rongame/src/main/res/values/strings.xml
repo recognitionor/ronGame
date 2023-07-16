@@ -27,4 +27,37 @@
     <string name="card_detail_hp">체력 : %d</string>
     <string name="card_detail_mp">정신력 : %d</string>
     <string name="card_list_title">내 보유 카드 리스트</string>
+
+    <string name="game_att">무기</string>
+    <string name="game_def">방패</string>
+    <string name="game_speed">속도</string>
+    <string name="game_hp">체력</string>
+    <string name="game_mp">정신력</string>
+    <string name="game_selected_card_guid"> 카드 를 선택해 주세요</string>
+
+
+    <string name="game_my_info">내 정보</string>
+    <string name="game_com_info">적 정보</string>
+    <string name="game_battle_compare_text"> VS </string>
+    <string name="game_battle_first_me">나 부터 공격</string>
+    <string name="game_battle_first_com">악당 부터 공격</string>
+    <string name="game_battle_my_att">내 공격력 : %d</string>
+    <string name="game_battle_my_def">내 방어력 : %d</string>
+    <string name="game_battle_com_att">적 공격력 : %d</string>
+    <string name="game_battle_com_def">적 방어력 : %d</string>
+    <string name="game_battle_attack">%d 만큼 공격</string>
+    <string name="game_battle_defense">%d 만큼 피해</string>
+    <string name="game_battle_attack_result">상대방 남은 체력 : %d (%s)</string>
+    <string name="game_battle_defense_result">내 남은 체력 : %d (%s)</string>
+
+    <string name="game_progress_min_attack">최소 공격(+정신력) : %d</string>
+    <string name="game_progress_max_attack">최대 공격(-상대방 방어력) : %d</string>
+    <string name="game_progress_min_defense">최소 방어(+정신력) : %d</string>
+    <string name="game_progress_max_defense">최대 방어 : %d</string>
+
+    <string name="game_my_info_remain_hp">남은 체력 : %d</string>
+    <string name="game_my_info_remain_turn">남은 기회 : %d</string>
+    <string name="game_my_info_used_card">사용한 카드 : %d</string>
+
+
 </resources>

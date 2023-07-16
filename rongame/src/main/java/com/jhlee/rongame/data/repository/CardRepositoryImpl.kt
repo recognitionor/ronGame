@@ -41,6 +41,5 @@ class CardRepositoryImpl @Inject constructor(
     }
 
     override suspend fun deleteCard(card: Card) {
-        Log.d("jhlee", "deleteCard")
     }
 }

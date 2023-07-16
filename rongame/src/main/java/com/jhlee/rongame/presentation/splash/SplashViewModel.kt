@@ -32,7 +32,6 @@ class SplashViewModel @Inject constructor(
         insertUserInfoUseCase(userInfo).onEach { result ->
             when (result) {
                 is Resource.Success -> {
-                    Log.d("jhlee", "succss")
                     _state.value =
                         SplashState(false, userInfo = result.data)
                 }
@@ -44,11 +43,9 @@ class SplashViewModel @Inject constructor(
     }
 
     private fun getUserInfo() {
-        Log.d("jhlee", "getUserInfo")
         getUserInfoUseCase().onEach { result ->
             when (result) {
                 is Resource.Success -> {
-                    Log.d("jhlee", "getUserInfoSuccess")
                     _state.value = SplashState(false, userInfo = result.data)
                 }
 

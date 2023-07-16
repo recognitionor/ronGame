@@ -40,7 +40,7 @@ fun GameItemScreen(
             .padding(20.dp),
             horizontalArrangement = Arrangement.SpaceBetween) {
             Text(
-                text = "${(gameStage.id +1)}",
+                text = "${(gameStage.id)}",
                 style = MaterialTheme.typography.body1,
                 overflow = TextOverflow.Ellipsis
             )

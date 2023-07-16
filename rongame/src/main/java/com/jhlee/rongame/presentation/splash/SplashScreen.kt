@@ -29,19 +29,17 @@ fun SplashScreen(viewModel: SplashViewModel = hiltViewModel(), onFinish: () -> U
         Box(
             modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
         ) {
-            Log.d("jhlee", "state :  ${state.userInfo}")
             Column(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(
-                    text = ctx.getString(R.string.title),
-                    fontSize = 40.sp,
-                    textAlign = TextAlign.Center
-                )
+//                Text(
+//                    text = ctx.getString(R.string.title),
+//                    fontSize = 40.sp,
+//                    textAlign = TextAlign.Center
+//                )
                 if (state.userInfo == null) {
                     UserInfoEditDialog { name ->
-                        Log.d("jhlee", "name : $name")
                         viewModel.insertUserInfo(UserInfo(1, name, 1000))
                     }
                 } else {

@@ -4,6 +4,7 @@ import android.content.Context
 import com.jhlee.rongame.data.local.AppDatabase
 import com.jhlee.rongame.data.local.DatabaseBuilder
 import com.jhlee.rongame.data.local.dao.DBCardDao
+import com.jhlee.rongame.data.local.dao.DBGameStageDao
 import com.jhlee.rongame.data.local.dao.DBUserInfoDao
 import com.jhlee.rongame.data.repository.CardRepositoryImpl
 import com.jhlee.rongame.data.repository.GameStageRepositoryImpl
@@ -40,8 +41,8 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideLocalGameStageRepository(): GameStageRepository {
-        return GameStageRepositoryImpl()
+    fun provideLocalGameStageRepository(dao: DBGameStageDao): GameStageRepository {
+        return GameStageRepositoryImpl(dao)
     }
 
 
@@ -49,6 +50,12 @@ class AppModule {
     @Singleton
     fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase {
         return DatabaseBuilder.getInstance(context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDBGameStageDao(database: AppDatabase): DBGameStageDao {
+        return database.gameStageDao()
     }
 
     @Provides
