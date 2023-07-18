@@ -39,6 +39,7 @@ fun CardListItemScreen(
     card: Card,
     height: Float,
     selected: Boolean = false,
+    isEnabled: Boolean = true,
     onItemClick: ((card: Card) -> Unit)? = null
 ) {
     val ctx = LocalContext.current
@@ -64,7 +65,10 @@ fun CardListItemScreen(
             if (onItemClick == null) {
                 showInfoDialog.value = true
             } else {
-                onItemClick(card)
+                if (isEnabled) {
+                    onItemClick(card)
+                }
+
             }
         }) {
         Box(
@@ -82,7 +86,7 @@ fun CardListItemScreen(
                         .fillMaxWidth()
                         .wrapContentHeight()
                 ) {
-                    if (selected) {
+                    if (selected && isEnabled) {
                         Image(
                             modifier = Modifier
                                 .size(100.dp)
@@ -134,15 +138,29 @@ fun CardListItemScreen(
                         )
                     }
                 }
-                Image(
-                    painter = painterResource(id = cardImg.toInt()),
-                    contentDescription = "",
-                    modifier = Modifier
-                        .size(
-                            (cardWidth * 0.4).dp, (height * 0.4).dp
-                        )
-                        .background(Color.White)
-                )
+                if (isEnabled) {
+                    Image(
+                        painter = painterResource(id = cardImg.toInt()),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .size(
+                                (cardWidth * 0.4).dp, (height * 0.4).dp
+                            )
+                            .background(Color.White)
+                    )
+                } else {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_close),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .size(
+                                (cardWidth * 0.4).dp, (height * 0.4).dp
+                            )
+                            .background(Color.White),
+                        colorFilter = ColorFilter.tint(color)
+                    )
+                }
+
                 Text(text = nameStr, textAlign = TextAlign.Center)
                 StarRatingBar(((card.grade.plus(1)) ?: 0), color, 12.dp)
             }

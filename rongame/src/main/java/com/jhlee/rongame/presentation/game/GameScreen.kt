@@ -1,5 +1,6 @@
 package com.jhlee.rongame.presentation.game
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -33,7 +34,7 @@ import com.jhlee.rongame.domain.model.Card
 import com.jhlee.rongame.presentation.card_list.CardListItemScreen
 
 @Composable
-fun GameScreen(stageId: Int) {
+fun GameScreen(stageId: Int, activityFinish: () -> Unit) {
     val ctx = LocalContext.current
     val gameViewModel: GameViewModel = hiltViewModel()
     val gameBattleViewModel: GameBattleViewModel = hiltViewModel()
@@ -46,7 +47,6 @@ fun GameScreen(stageId: Int) {
         gameViewModel.getCardList()
         gameViewModel.getGameStage(stageId)
     }
-
     val selectedCard: List<MutableState<Card?>> = remember {
         listOf(
             mutableStateOf(null),
@@ -63,6 +63,15 @@ fun GameScreen(stageId: Int) {
         }
     }
 
+    when (gameBattleState.viewMode) {
+        GameBattleState.VIEW_MODE_GAME_LOSE_RESULT -> {
+            gameViewModel.deleteCardList(gameState.selectedCardList.mapNotNull { it?.id })
+        }
+
+        GameBattleState.VIEW_MODE_FINISH -> {
+            activityFinish.invoke()
+        }
+    }
 
     Card(
         modifier = Modifier
@@ -95,8 +104,7 @@ fun GameScreen(stageId: Int) {
 
                     Text(
                         text = ctx.getString(
-                            R.string.game_my_info_remain_hp,
-                            gameBattleState.myRemainHp
+                            R.string.game_my_info_remain_hp, gameBattleState.myRemainHp
                         )
                     )
                     Text(
@@ -171,7 +179,14 @@ fun GameScreen(stageId: Int) {
             }
 
             Column(Modifier.weight(1f)) {
-                GameBattleScreen(selectedCard, gameState.selectedGameStage, gameBattleViewModel)
+                GameBattleScreen(
+                    gameState,
+                    selectedCard,
+                    gameState.selectedGameStage,
+                    gameBattleViewModel
+                ) {
+                    gameViewModel.updateSelectedCardList(selectedCard)
+                }
             }
             if (gameBattleViewModel.state.value.viewMode == GameBattleState.VIEW_MODE_DEFAULT) {
                 GameSelectCardSlotScreen(selectedCard, selectedType)
@@ -209,10 +224,9 @@ fun GameScreen(stageId: Int) {
 
                             val selectedIndex = isSelectedCard(item, selectedCard)
                             val isSelected = selectedIndex > -1
+                            val isEnabled = isEnabledCard(gameState.selectedCardList, item)
                             CardListItemScreen(
-                                card = item,
-                                height = 180f,
-                                isSelected,
+                                card = item, height = 180f, isSelected, isEnabled
                             ) { card ->
                                 if (isSelected) {
                                     selectedCard[selectedIndex].value = null
@@ -226,6 +240,17 @@ fun GameScreen(stageId: Int) {
             }
         }
     }
+}
+
+fun isEnabledCard(cardList: List<Card?>, targetCard: Card): Boolean {
+    cardList.forEach {
+        it?.let { card ->
+            if (card.id == targetCard.id) {
+                return false
+            }
+        }
+    }
+    return true
 }
 
 fun isSelectedCard(card: Card, list: List<MutableState<Card?>>): Int {

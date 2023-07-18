@@ -1,7 +1,7 @@
 package com.jhlee.rongame.presentation.game
 
 data class GameBattleState(
-    val viewMode: Int = 0,
+    val viewMode: Int = VIEW_MODE_DEFAULT,
     val isLoadDone: Boolean = false,
     val roundCount: Int = 0,
     val compareType: Int = 0,
@@ -15,6 +15,7 @@ data class GameBattleState(
     val randomValue: Int = 0
 ) {
     companion object {
+        const val VIEW_MODE_PROGRESS = -1
         const val VIEW_MODE_DEFAULT = 0
         const val VIEW_MODE_READY = 1
         const val VIEW_MODE_STATE_MSG = 2
@@ -24,5 +25,6 @@ data class GameBattleState(
         const val VIEW_MODE_RANDOM_DEF_RESULT = 6
         const val VIEW_MODE_GAME_WIN_RESULT = 7
         const val VIEW_MODE_GAME_LOSE_RESULT = 8
+        const val VIEW_MODE_FINISH = 9
     }
 }

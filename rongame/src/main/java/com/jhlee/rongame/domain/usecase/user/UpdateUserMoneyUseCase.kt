@@ -11,11 +11,12 @@ class UpdateUserMoneyUseCase @Inject constructor(
     private val repository: UserRepository<UserInfo>
 ) {
 
-    operator fun invoke(minusValue: Int): Flow<Resource<UserInfo>> = flow {
+    operator fun invoke(value: Int): Flow<Resource<UserInfo>> = flow {
         try {
             emit(Resource.Loading<UserInfo>())
             val userInfo = repository.getUserInfo()
-            val userInfoTemp = userInfo.copy(money = userInfo.money.minus(minusValue))
+            val userInfoTemp = userInfo.copy(money = userInfo.money.plus(value))
+
             val updatedUser = repository.updateUserInfo(userInfoTemp)
             emit(Resource.Success<UserInfo>(updatedUser))
         } catch (e: Exception) {

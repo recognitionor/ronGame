@@ -20,7 +20,6 @@ fun MyApp() {
         NavHost(navController = navController, startDestination = "home") {
             composable("home") {
                 HomeScreen()
-//                GameScreen()
             }
             composable("search") {
                 GameStageListScreen()

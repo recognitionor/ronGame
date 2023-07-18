@@ -1,13 +1,15 @@
 package com.jhlee.rongame.presentation.game
 
 import android.util.Log
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jhlee.rongame.common.Resource
+import com.jhlee.rongame.domain.model.Card
+import com.jhlee.rongame.domain.usecase.card.DeleteCardListUseCase
 import com.jhlee.rongame.domain.usecase.card.GetCardListUseCase
-import com.jhlee.rongame.domain.usecase.game_stage.GetGameStageListUseCase
 import com.jhlee.rongame.domain.usecase.game_stage.GetGameStageUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -17,7 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class GameViewModel @Inject constructor(
     private val getCardListUseCase: GetCardListUseCase,
-    private val getGameStageUseCase: GetGameStageUseCase
+    private val getGameStageUseCase: GetGameStageUseCase,
+    private val deleteCardListUseCase: DeleteCardListUseCase
 ) : ViewModel() {
 
     private val _state = mutableStateOf(GameState())
@@ -50,6 +53,29 @@ class GameViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
+    fun deleteCardList(list: List<Int>) {
+        deleteCardListUseCase(list).onEach {}.launchIn(viewModelScope)
+    }
+
+    fun updateSelectedCardList(selectedCard: List<MutableState<Card?>>) {
+        val tempList = arrayListOf<Card>()
+        _state.value.selectedCardList.forEach { card ->
+            card?.let {
+                tempList.add(it)
+            }
+        }
+        selectedCard.forEach {
+            it.value?.let { card ->
+                if (!tempList.contains(card)) {
+                    tempList.add(card)
+                }
+            }
+        }
+        _state.value = _state.value.copy(
+            selectedCardList = tempList,
+            usedCardCount = _state.value.usedCardCount.plus(tempList.size)
+        )
+    }
 
     fun getCardList() {
         getCardListUseCase().onEach { result ->

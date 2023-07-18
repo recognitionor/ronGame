@@ -1,5 +1,12 @@
 <resources>
     <string name="app_name">ronGame</string>
+
+    <!--common-->
+    <string name="start">시작</string>
+    <string name="confirm">확인</string>
+    <string name="cancel">취소</string>
+
+
     <string name="title_gatcha">카드뽑기</string>
     <string name="title_game">Game</string>
     <string name="title_mini_game">돈벌기</string>
@@ -49,12 +56,22 @@
     <string name="game_battle_defense">%d 만큼 피해</string>
     <string name="game_battle_attack_result">상대방 남은 체력 : %d (%s)</string>
     <string name="game_battle_defense_result">내 남은 체력 : %d (%s)</string>
+    <string name="game_battle_speed_compare">속도 비교</string>
+    <string name="game_battle_speed_my_first">나 부터</string>
+    <string name="game_battle_speed_com_first">적 부터</string>
+    <string name="game_battle_current_round">현재 라운드 : %d</string>
+    <string name="game_battle_result_win">승리!</string>
+    <string name="game_battle_result_lost">패배</string>
+    <string name="game_battle_result_get_reward">보상을 받으세요!\n %d 원</string>
+    <string name="game_battle_result_lost_message">사용 하신 카드는 모두 사라집니다.</string>
 
     <string name="game_progress_min_attack">최소 공격(+정신력) : %d</string>
     <string name="game_progress_max_attack">최대 공격(-상대방 방어력) : %d</string>
     <string name="game_progress_min_defense">최소 방어(+정신력) : %d</string>
     <string name="game_progress_max_defense">최대 방어 : %d</string>
 
+
+    <string name="game_start_confirm_message">%d 원이 차감 됩니다.\n게임을 시작 하시겠습니까?</string>
     <string name="game_my_info_remain_hp">남은 체력 : %d</string>
     <string name="game_my_info_remain_turn">남은 기회 : %d</string>
     <string name="game_my_info_used_card">사용한 카드 : %d</string>

@@ -13,4 +13,11 @@ interface DBCardDao {
 
     @Query("SELECT * FROM DBCard")
     suspend fun getCardList(): List<DBCard>
+
+
+    @Query("DELETE FROM DBCard WHERE id = :cardId")
+    suspend fun deleteCardById(cardId: Int)
+
+    @Query("DELETE FROM DBCard WHERE id IN (:cardIds)")
+    suspend fun deleteCardByIds(cardIds: List<Int>)
 }

@@ -30,6 +30,9 @@ class CardRepositoryImpl @Inject constructor(
         return card
     }
 
+    override suspend fun deleteCard(ids: Int) = cardDao.deleteCardById(ids)
+
+    override suspend fun deleteCardList(idList: List<Int>) = cardDao.deleteCardByIds(idList)
     override suspend fun getCardList(): List<Card> {
         return cardDao.getCardList().map {
             it.toCard()
@@ -40,6 +43,4 @@ class CardRepositoryImpl @Inject constructor(
         return card
     }
 
-    override suspend fun deleteCard(card: Card) {
-    }
 }

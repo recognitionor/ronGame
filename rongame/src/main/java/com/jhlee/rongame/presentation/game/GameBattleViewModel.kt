@@ -5,22 +5,28 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.jhlee.rongame.common.Resource
 import com.jhlee.rongame.domain.const.GameConst
 import com.jhlee.rongame.domain.const.GameConst.Companion.GAME_DELAY
 import com.jhlee.rongame.domain.const.GameConst.Companion.GAME_SELECTED_CARD_TYPE_SPD
 import com.jhlee.rongame.domain.model.Card
 import com.jhlee.rongame.domain.model.GameStage
+import com.jhlee.rongame.domain.usecase.user.UpdateUserMoneyUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.random.Random
 
 @HiltViewModel
-class GameBattleViewModel @Inject constructor() : ViewModel() {
+class GameBattleViewModel @Inject constructor(private val updateUserMoneyUseCase: UpdateUserMoneyUseCase) :
+    ViewModel() {
 
     private val _state = mutableStateOf(GameBattleState())
 
@@ -29,13 +35,34 @@ class GameBattleViewModel @Inject constructor() : ViewModel() {
 
     fun initGameStage(selectedGameStage: GameStage) {
         val offset = 10
-        _state.value = _state.value.copy(comRemainHp = selectedGameStage.id + offset)
+        _state.value = _state.value.copy(
+            viewMode = GameBattleState.VIEW_MODE_DEFAULT,
+            comRemainHp = selectedGameStage.id + offset
+        )
     }
 
     fun setMyRemainHp(selectedType: List<MutableState<Card?>>) {
         _state.value = _state.value.copy(
             myRemainHp = selectedType[GameConst.GAME_SELECTED_CARD_TYPE_HP].value?.hp ?: 0
         )
+    }
+
+    fun rewardWin(reward: Int) {
+        updateUserMoneyUseCase(reward).onEach { result ->
+            when (result) {
+                is Resource.Success -> {
+                    _state.value = _state.value.copy(viewMode = GameBattleState.VIEW_MODE_FINISH)
+                }
+
+                is Resource.Error -> {
+                    _state.value = _state.value.copy(viewMode = GameBattleState.VIEW_MODE_FINISH)
+                }
+
+                is Resource.Loading -> {
+                    _state.value = _state.value.copy(viewMode = GameBattleState.VIEW_MODE_PROGRESS)
+                }
+            }
+        }.launchIn(viewModelScope)
     }
 
     private fun checkLose(): Boolean {
@@ -174,21 +201,30 @@ class GameBattleViewModel @Inject constructor() : ViewModel() {
         delay(GAME_DELAY)
     }
 
-    fun startRound(selectedCard: List<MutableState<Card?>>, selectedGameStage: GameStage) {
-        _state.value = state.value.copy(roundCount = _state.value.roundCount.plus(1))
+    private fun nextRound(selectedCard: List<MutableState<Card?>>, nextViewMode: Int) {
+        selectedCard.forEach {
+            it.value = null
+        }
+        _state.value = _state.value.copy(
+            viewMode = nextViewMode
+        )
+    }
+
+    fun startRound(
+        selectedCard: List<MutableState<Card?>>,
+        selectedGameStage: GameStage,
+        roundStartCallback: () -> Unit,
+    ) {
         MainScope().launch {
 
             withContext(Dispatchers.IO) {
-                val myAtt = selectedCard[GameConst.GAME_SELECTED_CARD_TYPE_ATT].value?.attack ?: 0
-                val myDef = selectedCard[GameConst.GAME_SELECTED_CARD_TYPE_DEF].value?.defense ?: 0
-                val mySpd = selectedCard[GameConst.GAME_SELECTED_CARD_TYPE_SPD].value?.speed ?: 0
-                val myHp = selectedCard[GameConst.GAME_SELECTED_CARD_TYPE_HP].value?.hp ?: 0
-                val myMp = selectedCard[GameConst.GAME_SELECTED_CARD_TYPE_MP].value?.mp ?: 0
+                val mySpd = selectedCard[GAME_SELECTED_CARD_TYPE_SPD].value?.speed ?: 0
                 val comValue = selectedGameStage.id
-
-
+//                gameState = gameState.copy(usedCardCount = gameState.usedCardCount.plus(selectedCard.size))
                 // 스피드를 비교
+                roundStartCallback.invoke()
                 _state.value = _state.value.copy(
+                    roundCount = _state.value.roundCount.plus(1),
                     viewMode = GameBattleState.VIEW_MODE_READY,
                     compareType = GAME_SELECTED_CARD_TYPE_SPD,
                     compareMyValue = mySpd.toString(),
@@ -209,13 +245,9 @@ class GameBattleViewModel @Inject constructor() : ViewModel() {
                     } else {
                         defense(selectedCard, selectedGameStage)
                         if (checkLose()) {
-                            _state.value = _state.value.copy(
-                                viewMode = GameBattleState.VIEW_MODE_GAME_LOSE_RESULT
-                            )
+                            nextRound(selectedCard, GameBattleState.VIEW_MODE_GAME_LOSE_RESULT)
                         } else {
-                            _state.value = _state.value.copy(
-                                viewMode = GameBattleState.VIEW_MODE_DEFAULT
-                            )
+                            nextRound(selectedCard, GameBattleState.VIEW_MODE_DEFAULT)
                         }
 
                     }
@@ -223,14 +255,14 @@ class GameBattleViewModel @Inject constructor() : ViewModel() {
                     defense(selectedCard, selectedGameStage)
                     delay(GAME_DELAY)
                     if (checkLose()) {
-                        _state.value = _state.value.copy(
-                            viewMode = GameBattleState.VIEW_MODE_GAME_LOSE_RESULT
-                        )
+                        nextRound(selectedCard, GameBattleState.VIEW_MODE_GAME_LOSE_RESULT)
                     } else {
                         attack(selectedCard, selectedGameStage)
-                        _state.value = _state.value.copy(
-                            viewMode = GameBattleState.VIEW_MODE_DEFAULT
-                        )
+                        if (checkWin()) {
+                            nextRound(selectedCard, GameBattleState.VIEW_MODE_GAME_WIN_RESULT)
+                        } else {
+                            nextRound(selectedCard, GameBattleState.VIEW_MODE_DEFAULT)
+                        }
                     }
                 }
             }

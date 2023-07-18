@@ -6,9 +6,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
 import androidx.compose.material.Card
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -17,20 +21,27 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.jhlee.rongame.R
 import com.jhlee.rongame.domain.const.GameConst
 import com.jhlee.rongame.domain.model.Card
 import com.jhlee.rongame.domain.model.GameStage
+import com.jhlee.rongame.presentation.card_list.CardListItemScreen
 
 @Composable
 fun GameBattleScreen(
+    gameState: GameState,
     selectedCard: List<MutableState<Card?>>,
     selectedGameStage: GameStage?,
-    gameBattleViewModel: GameBattleViewModel
+    gameBattleViewModel: GameBattleViewModel,
+    roundStartCallback: () -> Unit
 ) {
     val ctx = LocalContext.current
     val state = gameBattleViewModel.state.value
+
     Column(
         Modifier.fillMaxHeight(),
         verticalArrangement = Arrangement.Center,
@@ -38,21 +49,41 @@ fun GameBattleScreen(
     ) {
         when (state.viewMode) {
             GameBattleState.VIEW_MODE_DEFAULT -> {
-                Text(text = "현재 라운드 : ${state.roundCount + 1}")
+                Text(
+                    text = ctx.getString(
+                        R.string.game_battle_current_round, (state.roundCount + 1)
+                    )
+                )
                 Button(onClick = {
                     selectedGameStage?.let {
-                        gameBattleViewModel.startRound(selectedCard, it)
+                        gameBattleViewModel.startRound(selectedCard, it, roundStartCallback)
                     }
                 }) {
-                    Text(text = "시작")
+                    Text(text = ctx.getString(R.string.start))
                 }
             }
 
             GameBattleState.VIEW_MODE_READY -> {
-                var msg = ""
                 Column {
-                    Text(text = "state.compareType")
-                    Text(text = "${state.compareMyValue} ${ctx.getString(R.string.game_battle_compare_text)} ${state.compareComValue}")
+                    Text(
+                        textAlign = TextAlign.Center,
+                        text = ctx.getString(R.string.game_battle_speed_compare)
+                    )
+                    Text(
+                        textAlign = TextAlign.Center,
+                        text = "${state.compareMyValue} ${ctx.getString(R.string.game_battle_compare_text)} ${state.compareComValue}"
+                    )
+                    if (state.compareMyValue > state.compareComValue) {
+                        Text(
+                            textAlign = TextAlign.Center,
+                            text = ctx.getString(R.string.game_battle_speed_my_first)
+                        )
+                    } else {
+                        Text(
+                            textAlign = TextAlign.Center,
+                            text = ctx.getString(R.string.game_battle_speed_com_first)
+                        )
+                    }
                 }
             }
 
@@ -165,12 +196,57 @@ fun GameBattleScreen(
             }
 
             GameBattleState.VIEW_MODE_GAME_LOSE_RESULT -> {
-                Text(text = "패")
+                Text(
+                    text = ctx.getString(R.string.game_battle_result_lost),
+                    fontSize = 50.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Blue
+                )
+                Text(
+                    text = ctx.getString(R.string.game_battle_result_lost_message),
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(bottom = 8.dp)
+                )
+
+                LazyRow(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(180.dp),
+                ) {
+                    items(gameState.selectedCardList) { item ->
+                        item?.let {
+                            CardListItemScreen(
+                                card = item, height = 180f, isEnabled = false
+                            )
+                        }
+                    }
+                }
             }
 
             GameBattleState.VIEW_MODE_GAME_WIN_RESULT -> {
-                Text(text = "승")
+                Text(
+                    text = ctx.getString(R.string.game_battle_result_win),
+                    fontSize = 50.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Red
+                )
+
+                Button(onClick = {
+                    gameBattleViewModel.rewardWin(selectedGameStage?.reward ?: 0)
+                }) {
+                    Text(
+                        textAlign = TextAlign.Center,
+                        text = ctx.getString(
+                            R.string.game_battle_result_get_reward, selectedGameStage?.reward
+                        ),
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(bottom = 8.dp)
+                    )
+                }
             }
+
             GameBattleState.VIEW_MODE_RANDOM_DEF_RESULT -> {
                 Text(
                     text = ctx.getString(
@@ -178,12 +254,19 @@ fun GameBattleScreen(
                     )
                 )
             }
+
             GameBattleState.VIEW_MODE_RANDOM_ATT_RESULT -> {
                 Text(
                     text = ctx.getString(
                         R.string.game_battle_attack_result, state.comRemainHp, state.content
                     )
                 )
+            }
+
+            GameBattleState.VIEW_MODE_PROGRESS -> {
+                Box {
+                    CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                }
             }
         }
     }
