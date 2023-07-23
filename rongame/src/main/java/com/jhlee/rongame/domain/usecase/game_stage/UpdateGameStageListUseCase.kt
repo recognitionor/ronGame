@@ -7,11 +7,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class InsertGameStageListUseCase @Inject constructor(private val gameStageRepository: GameStageRepository) {
-    operator fun invoke(list: List<GameStage>? = null): Flow<Resource<List<GameStage>>> = flow {
+class UpdateGameStageListUseCase @Inject constructor(private val gameStageRepository: GameStageRepository) {
+    operator fun invoke(map: HashMap<Int, Int>): Flow<Resource<List<GameStage>>> = flow {
         emit(Resource.Loading<List<GameStage>>())
         try {
-            val result = gameStageRepository.insertGameStageList(list)
+            val result = gameStageRepository.updateGameStageStatus(map)
             emit(Resource.Success<List<GameStage>>(result))
         } catch (e: Exception) {
             emit(Resource.Error<List<GameStage>>(e.message.toString()))

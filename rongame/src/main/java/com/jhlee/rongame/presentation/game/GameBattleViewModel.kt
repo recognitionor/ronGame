@@ -1,6 +1,5 @@
 package com.jhlee.rongame.presentation.game
 
-import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -10,8 +9,10 @@ import com.jhlee.rongame.common.Resource
 import com.jhlee.rongame.domain.const.GameConst
 import com.jhlee.rongame.domain.const.GameConst.Companion.GAME_DELAY
 import com.jhlee.rongame.domain.const.GameConst.Companion.GAME_SELECTED_CARD_TYPE_SPD
+import com.jhlee.rongame.domain.const.GameStageConst
 import com.jhlee.rongame.domain.model.Card
 import com.jhlee.rongame.domain.model.GameStage
+import com.jhlee.rongame.domain.usecase.game_stage.UpdateGameStageListUseCase
 import com.jhlee.rongame.domain.usecase.user.UpdateUserMoneyUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -25,8 +26,10 @@ import javax.inject.Inject
 import kotlin.random.Random
 
 @HiltViewModel
-class GameBattleViewModel @Inject constructor(private val updateUserMoneyUseCase: UpdateUserMoneyUseCase) :
-    ViewModel() {
+class GameBattleViewModel @Inject constructor(
+    private val updateUserMoneyUseCase: UpdateUserMoneyUseCase,
+    private val updateGameStageListUseCase: UpdateGameStageListUseCase,
+) : ViewModel() {
 
     private val _state = mutableStateOf(GameBattleState())
 
@@ -34,7 +37,7 @@ class GameBattleViewModel @Inject constructor(private val updateUserMoneyUseCase
 
 
     fun initGameStage(selectedGameStage: GameStage) {
-        val offset = 10
+        val offset = 0
         _state.value = _state.value.copy(
             viewMode = GameBattleState.VIEW_MODE_DEFAULT,
             comRemainHp = selectedGameStage.id + offset
@@ -216,12 +219,9 @@ class GameBattleViewModel @Inject constructor(private val updateUserMoneyUseCase
         roundStartCallback: () -> Unit,
     ) {
         MainScope().launch {
-
             withContext(Dispatchers.IO) {
                 val mySpd = selectedCard[GAME_SELECTED_CARD_TYPE_SPD].value?.speed ?: 0
                 val comValue = selectedGameStage.id
-//                gameState = gameState.copy(usedCardCount = gameState.usedCardCount.plus(selectedCard.size))
-                // 스피드를 비교
                 roundStartCallback.invoke()
                 _state.value = _state.value.copy(
                     roundCount = _state.value.roundCount.plus(1),
@@ -239,6 +239,7 @@ class GameBattleViewModel @Inject constructor(private val updateUserMoneyUseCase
                 if (state.value.compareMyValue > state.value.compareComValue) {
                     attack(selectedCard, selectedGameStage)
                     if (checkWin()) {
+                        updateForWinResult(selectedGameStage)
                         _state.value = _state.value.copy(
                             viewMode = GameBattleState.VIEW_MODE_GAME_WIN_RESULT
                         )
@@ -267,5 +268,12 @@ class GameBattleViewModel @Inject constructor(private val updateUserMoneyUseCase
                 }
             }
         }
+    }
+
+    private fun updateForWinResult(selectedGameStage: GameStage) {
+        val map: HashMap<Int, Int> = hashMapOf()
+        map[selectedGameStage.id] = GameStageConst.GAME_STAGE_STATUS_DONE
+        map[selectedGameStage.id + 1] = GameStageConst.GAME_STAGE_STATUS_READY
+        updateGameStageListUseCase(map).launchIn(viewModelScope)
     }
 }

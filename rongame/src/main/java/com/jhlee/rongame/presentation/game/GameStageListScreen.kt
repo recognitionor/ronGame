@@ -1,7 +1,10 @@
 package com.jhlee.rongame.presentation.game
 
+import android.app.Activity
 import android.content.Intent
-import android.util.Log
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -26,6 +29,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.jhlee.rongame.GameActivity
 import com.jhlee.rongame.R
 import com.jhlee.rongame.common.constants.ExtraConst.Companion.EXTRA_SELECTED_STAGE_KEY
+import com.jhlee.rongame.domain.const.GameStageConst
 import com.jhlee.rongame.domain.model.GameStage
 import com.jhlee.rongame.presentation.user.UserInfoViewModel
 
@@ -36,12 +40,41 @@ fun GameStageListScreen() {
     val userInfoViewModel: UserInfoViewModel = hiltViewModel()
     val showInfoDialog = remember { mutableStateOf<GameStage?>(null) }
     val state = gameListViewModel.state.value
+
+    val resultLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult(),
+        onResult = { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                gameListViewModel.getGameList()
+            }
+        })
+
     Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             items(state.gameList) { gameStage ->
                 GameItemScreen(gameStage) {
-                    showInfoDialog.value = gameStage
-                    gameListViewModel.selectGameStage(gameStage)
+                    when (gameStage.status) {
+                        GameStageConst.GAME_STAGE_STATUS_READY -> {
+                            showInfoDialog.value = gameStage
+                            gameListViewModel.selectGameStage(gameStage)
+                        }
+
+                        GameStageConst.GAME_STAGE_STATUS_DONE -> {
+                            Toast.makeText(
+                                ctx,
+                                ctx.getString(R.string.game_stage_state_done_message),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+
+                        GameStageConst.GAME_STAGE_STATUS_NOT_OPEN -> {
+                            Toast.makeText(
+                                ctx,
+                                ctx.getString(R.string.game_stage_state_not_open_message),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
                 }
             }
         }
@@ -61,7 +94,7 @@ fun GameStageListScreen() {
             AlertDialog(onDismissRequest = { }, title = {
                 Text(
                     text = ctx.getString(
-                        R.string.game_start_confirm_message, (showInfoDialog.value?.reward ?: 0)
+                        R.string.game_start_confirm_message, (showInfoDialog.value?.cost ?: 0)
                     ),
                     textAlign = TextAlign.Center,
                     color = Color.Black,
@@ -73,13 +106,13 @@ fun GameStageListScreen() {
             }, text = {}, confirmButton = {
                 Button(
                     onClick = {
-                        userInfoViewModel.updateUserInfoMoney(-100)
-                        showInfoDialog.value = null
-                        val intent = Intent(ctx, GameActivity::class.java)
-                        state.selectedGameStage?.id?.let {
-                            intent.putExtra(EXTRA_SELECTED_STAGE_KEY, it)
+                        state.selectedGameStage?.let {
+                            userInfoViewModel.updateUserInfoMoney(-it.cost)
+                            showInfoDialog.value = null
+                            val intent = Intent(ctx, GameActivity::class.java)
+                            intent.putExtra(EXTRA_SELECTED_STAGE_KEY, it.id)
+                            resultLauncher.launch(intent)
                         }
-                        ctx.startActivity(intent)
                     }, modifier = Modifier.padding(top = 16.dp)
                 ) {
                     Text(text = ctx.getString(R.string.confirm))

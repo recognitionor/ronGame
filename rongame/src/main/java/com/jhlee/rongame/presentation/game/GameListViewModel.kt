@@ -1,6 +1,5 @@
 package com.jhlee.rongame.presentation.game
 
-import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -10,7 +9,7 @@ import com.jhlee.rongame.domain.model.GameStage
 import com.jhlee.rongame.domain.usecase.game_stage.GetGameStageListUseCase
 import com.jhlee.rongame.domain.usecase.game_stage.GetGameStageUseCase
 import com.jhlee.rongame.domain.usecase.game_stage.InsertGameStageListUseCase
-import com.jhlee.rongame.presentation.card.CardState
+import com.jhlee.rongame.domain.usecase.game_stage.UpdateGameStageListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -20,7 +19,8 @@ import javax.inject.Inject
 class GameListViewModel @Inject constructor(
     private val getGameStageListUseCase: GetGameStageListUseCase,
     private val getGameStageUseCase: GetGameStageUseCase,
-    private val insertGameStageListUseCase: InsertGameStageListUseCase
+    private val insertGameStageListUseCase: InsertGameStageListUseCase,
+    private val updateGameStageListUseCase: UpdateGameStageListUseCase
 ) : ViewModel() {
 
     private val _state = mutableStateOf(GameStageState())
@@ -56,7 +56,7 @@ class GameListViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    private fun getGameList() {
+    fun getGameList() {
         getGameStageListUseCase().onEach { result ->
             when (result) {
                 is Resource.Success -> {

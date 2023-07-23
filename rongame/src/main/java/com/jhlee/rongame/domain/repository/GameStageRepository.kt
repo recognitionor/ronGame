@@ -6,6 +6,7 @@ interface GameStageRepository {
 
     suspend fun insertGameStageList(list: List<GameStage>? = null): List<GameStage>
 
+    suspend fun updateGameStageStatus(map: HashMap<Int, Int>): List<GameStage>
     suspend fun insertGameStage(gameStage: GameStage): Long
     suspend fun getGameStageList(): List<GameStage>
     suspend fun getGameStage(gameStageId: Int): GameStage

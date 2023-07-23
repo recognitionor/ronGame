@@ -78,16 +78,15 @@ fun CardScreen(
             .padding(10.dp)
             .border(width = 4.dp, color = color, shape = RoundedCornerShape(8.dp))
             .clickable {
-                cardViewModel.gatchaCard()
-//                if ((userStateValue.user?.money ?: 0) > 0) {
-//                    cardViewModel.gatchaCard()
-//                } else {
-//                    Toast
-//                        .makeText(
-//                            ctx, ctx.getString(R.string.card_gatcha_no_money), Toast.LENGTH_SHORT
-//                        )
-//                        .show()
-//                }
+                if ((userStateValue.user?.money ?: 0) > 0) {
+                    cardViewModel.gatchaCard()
+                } else {
+                    Toast
+                        .makeText(
+                            ctx, ctx.getString(R.string.card_gatcha_no_money), Toast.LENGTH_SHORT
+                        )
+                        .show()
+                }
             }
     }) {
         Box(

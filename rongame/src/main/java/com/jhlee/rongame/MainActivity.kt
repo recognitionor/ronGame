@@ -1,6 +1,5 @@
 package com.jhlee.rongame
 
-import com.jhlee.rongame.ui.theme.BottomNavigationBar
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity

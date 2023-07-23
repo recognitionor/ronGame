@@ -42,6 +42,14 @@
     <string name="game_mp">정신력</string>
     <string name="game_selected_card_guid"> 카드 를 선택해 주세요</string>
 
+    <string name="game_list_item_level">레벨 : %d 단계</string>
+    <string name="game_list_item_cost">참가 비용 : %d원</string>
+    <string name="game_list_item_reward">보상 금액 : %d원</string>
+    <string name="game_stage_state_ready">참가 하세요!</string>
+    <string name="game_stage_state_done">돌파</string>
+    <string name="game_stage_state_done_message">이미 완료한 레벨 입니다.</string>
+    <string name="game_stage_state_not_open">미지의 영역</string>
+    <string name="game_stage_state_not_open_message">미지의 영역 입니다.</string>
 
     <string name="game_my_info">내 정보</string>
     <string name="game_com_info">적 정보</string>
@@ -75,6 +83,7 @@
     <string name="game_my_info_remain_hp">남은 체력 : %d</string>
     <string name="game_my_info_remain_turn">남은 기회 : %d</string>
     <string name="game_my_info_used_card">사용한 카드 : %d</string>
+
 
 
 </resources>

@@ -1,15 +1,33 @@
 package com.jhlee.rongame.data.local.dao
 
+import android.util.Log
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.jhlee.rongame.data.local.entity.DBCard
+import androidx.room.Transaction
+import androidx.room.Update
 import com.jhlee.rongame.data.local.entity.DBGameStage
-import com.jhlee.rongame.domain.model.GameStage
 
 @Dao
 interface DBGameStageDao {
+
+    @Update
+    suspend fun update(gameStage: DBGameStage)
+
+    @Query("UPDATE DBGameStage SET status = :newStatus WHERE id = :id")
+    suspend fun updateStatus(id: Int, newStatus: Int)
+
+    @Transaction
+    suspend fun updateStatusAndReturnList(map: HashMap<Int, Int>): List<DBGameStage> {
+        Log.d("jhlee", "updateStatusAndReturnList")
+        map.forEach {
+            Log.d("jhlee", "$it")
+            updateStatus(it.key, it.value)
+        }
+        return getList()
+    }
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun createList(gameStageList: List<DBGameStage>): List<Long>
 
