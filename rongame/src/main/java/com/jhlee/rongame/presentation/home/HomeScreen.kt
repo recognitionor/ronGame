@@ -11,6 +11,10 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.fontResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -35,7 +39,7 @@ fun HomeScreen() {
     Column(
         modifier = Modifier
             .fillMaxHeight()
-            .padding(bottom = 70.dp)
+            .padding(bottom = 70.dp, start = 16.dp, end = 16.dp)
     ) {
         UserInfoScreen(userInfoViewModel)
         Row(
@@ -46,9 +50,9 @@ fun HomeScreen() {
         }
 
         Text(
-            text = ctx.getString(R.string.card_list_title),
-            fontSize = 24.sp,
-            modifier = Modifier.padding(bottom = 4.dp)
+            text = ctx.getString(R.string.card_list_title), fontSize = 24.sp, style = TextStyle(
+                fontFamily = FontFamily(Font(R.font.yeongdeok_sea))
+            ), modifier = Modifier.padding(bottom = 4.dp)
         )
         CardListScreen(cardListViewModel)
 

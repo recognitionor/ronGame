@@ -27,7 +27,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jhlee.rongame.R
-import com.jhlee.rongame.common.Utils
+import com.jhlee.rongame.common.utils.GameUtils
 import com.jhlee.rongame.common.constants.GradeConst
 import com.jhlee.rongame.presentation.common.StarRatingBar
 import com.jhlee.rongame.presentation.user.UserInfoViewModel
@@ -57,7 +57,7 @@ fun CardScreen(
             Toast.makeText(ctx, ctx.getString(R.string.card_gatcha_done), Toast.LENGTH_SHORT).show()
             userInfoViewModel.getUser()
         }
-        powerStr = Utils.getPower(cardStateValue.card).toString()
+        powerStr = GameUtils.getPower(cardStateValue.card).toString()
         costStr = cardStateValue.card.cost.toString()
         cardImg = cardStateValue.card.image
         nameStr = cardStateValue.card.name

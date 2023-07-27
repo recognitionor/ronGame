@@ -18,9 +18,11 @@ package com.jhlee.rongame.data.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.jhlee.rongame.data.local.dao.DBAttendDao
 import com.jhlee.rongame.data.local.dao.DBCardDao
 import com.jhlee.rongame.data.local.dao.DBGameStageDao
 import com.jhlee.rongame.data.local.dao.DBUserInfoDao
+import com.jhlee.rongame.data.local.entity.DBAttend
 import com.jhlee.rongame.data.local.entity.DBCard
 import com.jhlee.rongame.data.local.entity.DBGameStage
 import com.jhlee.rongame.data.local.entity.DBUserInfo
@@ -29,8 +31,8 @@ import com.jhlee.rongame.data.local.entity.DBUserInfo
  * The Room database for this app
  */
 @Database(
-    entities = [DBUserInfo::class, DBCard::class, DBGameStage::class],
-    version = 2,
+    entities = [DBUserInfo::class, DBCard::class, DBGameStage::class, DBAttend::class],
+    version = 4,
     exportSchema = false
 )
 
@@ -38,4 +40,5 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun cardDao(): DBCardDao
     abstract fun userDao(): DBUserInfoDao
     abstract fun gameStageDao(): DBGameStageDao
+    abstract fun attendDao(): DBAttendDao
 }

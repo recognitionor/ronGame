@@ -49,7 +49,7 @@ fun GameStageListScreen() {
             }
         })
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = Modifier.fillMaxSize().padding(bottom = 50.dp)) {
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             items(state.gameList) { gameStage ->
                 GameItemScreen(gameStage) {

@@ -28,7 +28,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jhlee.rongame.R
-import com.jhlee.rongame.common.Utils
+import com.jhlee.rongame.common.utils.GameUtils
 import com.jhlee.rongame.common.constants.GradeConst
 import com.jhlee.rongame.domain.model.Card
 import com.jhlee.rongame.presentation.card.CardDetailDialog
@@ -47,7 +47,7 @@ fun CardListItemScreen(
     val cardWidth = (height * 0.8)
     val cardImg: String = card.image
 
-    val powerStr: String = Utils.getPower(card).toString()
+    val powerStr: String = GameUtils.getPower(card).toString()
     val costStr: String = card.cost.toString()
 
     val nameStr: String = card.name

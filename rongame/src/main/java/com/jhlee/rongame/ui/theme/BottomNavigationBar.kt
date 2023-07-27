@@ -23,7 +23,7 @@ fun BottomNavigationBar(navController: NavHostController) {
             ctx.getString(R.string.title_game), painterResource(R.drawable.ic_dashboard_black_24dp), "search"
         ),
         BottomNavigationItem(
-            ctx.getString(R.string.title_mini_game), painterResource(R.drawable.ic_notifications_black_24dp), "profile"
+            ctx.getString(R.string.title_mini_game), painterResource(R.drawable.ic_notifications_black_24dp), "etc"
         )
     )
     val selectedItem = remember { mutableStateOf(items[0]) }
@@ -63,7 +63,7 @@ fun getLabel(screen: String): String {
     return when (screen) {
         "home" -> "Home"
         "search" -> "Search"
-        "profile" -> "Profile"
+        "etc" -> "Etc"
         else -> "Unknown"
     }
 }

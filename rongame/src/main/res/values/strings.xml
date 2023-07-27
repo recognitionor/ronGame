@@ -84,6 +84,9 @@
     <string name="game_my_info_remain_turn">남은 기회 : %d</string>
     <string name="game_my_info_used_card">사용한 카드 : %d</string>
 
+    <string name="etc_attend_btn">출석 체크 하면 300원 드려요~</string>
+    <string name="etc_attend_done">오늘 출석 완료</string>
+
 
 
 </resources>

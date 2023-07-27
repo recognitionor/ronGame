@@ -3,14 +3,18 @@ package com.jhlee.rongame.di
 import android.content.Context
 import com.jhlee.rongame.data.local.AppDatabase
 import com.jhlee.rongame.data.local.DatabaseBuilder
+import com.jhlee.rongame.data.local.dao.DBAttendDao
 import com.jhlee.rongame.data.local.dao.DBCardDao
 import com.jhlee.rongame.data.local.dao.DBGameStageDao
 import com.jhlee.rongame.data.local.dao.DBUserInfoDao
+import com.jhlee.rongame.data.local.entity.DBAttend
+import com.jhlee.rongame.data.repository.AttendRepositoryImpl
 import com.jhlee.rongame.data.repository.CardRepositoryImpl
 import com.jhlee.rongame.data.repository.GameStageRepositoryImpl
 import com.jhlee.rongame.data.repository.UserRepositoryImpl
 import com.jhlee.rongame.domain.model.Card
 import com.jhlee.rongame.domain.model.UserInfo
+import com.jhlee.rongame.domain.repository.AttendRepository
 import com.jhlee.rongame.domain.repository.CardRepository
 import com.jhlee.rongame.domain.repository.GameStageRepository
 import com.jhlee.rongame.domain.repository.UserRepository
@@ -45,6 +49,11 @@ class AppModule {
         return GameStageRepositoryImpl(dao)
     }
 
+    @Provides
+    @Singleton
+    fun provideLocalAttendRepository(dao: DBAttendDao): AttendRepository {
+        return AttendRepositoryImpl(dao)
+    }
 
     @Provides
     @Singleton
@@ -68,5 +77,11 @@ class AppModule {
     @Singleton
     fun provideDBCardDao(database: AppDatabase): DBCardDao {
         return database.cardDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideDBAttendDao(database: AppDatabase): DBAttendDao {
+        return database.attendDao()
     }
 }

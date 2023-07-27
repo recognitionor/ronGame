@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
 import com.jhlee.rongame.R
-import com.jhlee.rongame.common.Utils
+import com.jhlee.rongame.common.utils.GameUtils
 import com.jhlee.rongame.domain.model.Card
 
 @Composable
@@ -78,7 +78,7 @@ fun CardDetailDialog(card: Card, onDismiss: () -> Unit) {
                 Text(
 
                     text = "${ctx.getString(R.string.card_gatcha_power_title)} ${
-                        Utils.getPower(
+                        GameUtils.getPower(
                             card
                         )
                     }", fontSize = 16.sp, modifier = Modifier.padding(bottom = 4.dp)

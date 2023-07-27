@@ -1,8 +1,8 @@
-package com.jhlee.rongame.common
+package com.jhlee.rongame.common.utils
 
 import com.jhlee.rongame.domain.model.Card
 
-class Utils {
+class GameUtils {
 
     companion object {
         fun getPower(card: Card): Int {

@@ -33,11 +33,6 @@ fun SplashScreen(viewModel: SplashViewModel = hiltViewModel(), onFinish: () -> U
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-//                Text(
-//                    text = ctx.getString(R.string.title),
-//                    fontSize = 40.sp,
-//                    textAlign = TextAlign.Center
-//                )
                 if (state.userInfo == null) {
                     UserInfoEditDialog { name ->
                         viewModel.insertUserInfo(UserInfo(1, name, 1000))
