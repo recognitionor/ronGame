@@ -1,4 +1,4 @@
-package com.jhlee.rongame.presentation.game
+package com.jhlee.rongame.presentation.game.basic
 
 import android.app.Activity
 import android.content.Intent

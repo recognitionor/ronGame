@@ -1,4 +1,4 @@
-package com.jhlee.rongame.presentation.game
+package com.jhlee.rongame.presentation.game.basic
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

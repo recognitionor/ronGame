@@ -1,11 +1,10 @@
 package com.jhlee.rongame
 
-import android.app.Activity
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import com.jhlee.rongame.common.constants.ExtraConst
-import com.jhlee.rongame.presentation.game.GameScreen
+import com.jhlee.rongame.presentation.game.basic.GameScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -17,7 +16,7 @@ class GameActivity : AppCompatActivity() {
         val stageId = intent.getIntExtra(ExtraConst.EXTRA_SELECTED_STAGE_KEY, -1)
         setContent {
             GameScreen(stageId) {
-                setResult(Activity.RESULT_OK)
+                setResult(RESULT_OK)
                 finish()
             }
         }

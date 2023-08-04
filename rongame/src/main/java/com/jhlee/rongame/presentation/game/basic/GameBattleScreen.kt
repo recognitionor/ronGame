@@ -1,4 +1,4 @@
-package com.jhlee.rongame.presentation.game
+package com.jhlee.rongame.presentation.game.basic
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box

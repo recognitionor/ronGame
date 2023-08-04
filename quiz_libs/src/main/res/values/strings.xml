@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="quiz_correct">정답 입니다.</string>
+    <string name="quiz_remain_chance">남은 기회 : %d 회</string>
+    <string name="quiz_incorrect">틀렸습니다.</string>
+    <string name="quiz_next_stage">다음 문제로 넘어가기</string>
+    <string name="quiz_done">모든 퀴즈 종료</string>
+</resources>

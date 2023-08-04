@@ -1,6 +1,5 @@
-package com.jhlee.rongame.presentation.game
+package com.jhlee.rongame.presentation.game.basic
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -23,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import com.jhlee.rongame.R
 import com.jhlee.rongame.domain.const.GameStageConst
 import com.jhlee.rongame.domain.model.GameStage
-import com.jhlee.rongame.presentation.game.GameStageState.Companion.GAME_STATE_TYPE_MAP
+import com.jhlee.rongame.presentation.game.basic.GameStageState.Companion.GAME_STATE_TYPE_MAP
 
 @Composable
 fun GameItemScreen(

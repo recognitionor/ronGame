@@ -1,7 +1,6 @@
-package com.jhlee.rongame.presentation.game
+package com.jhlee.rongame.presentation.game.basic
 
 import com.jhlee.rongame.R
-import com.jhlee.rongame.domain.const.GameConst
 import com.jhlee.rongame.domain.const.GameStageConst
 import com.jhlee.rongame.domain.model.GameStage
 

@@ -1,9 +1,7 @@
 package com.jhlee.rongame.domain.usecase.card
 
-import android.util.Log
 import com.jhlee.rongame.common.Resource
 import com.jhlee.rongame.common.constants.GatchaConst
-import com.jhlee.rongame.common.constants.HeroConst
 import com.jhlee.rongame.data.local.InitData
 import com.jhlee.rongame.domain.model.Card
 import com.jhlee.rongame.domain.repository.CardRepository

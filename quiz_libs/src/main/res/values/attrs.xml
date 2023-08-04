@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="StarView">
+        <attr name="max" format="integer" /> <!-- textColor 속성 정의, 타입은 color -->
+        <attr name="rating" format="integer" /> <!-- customSize 속성 정의, 타입은 dimension -->
+        <attr name="star_size" format="dimension" />
+    </declare-styleable>
+</resources>

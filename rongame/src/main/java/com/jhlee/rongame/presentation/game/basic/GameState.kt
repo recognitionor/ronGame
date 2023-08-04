@@ -1,4 +1,4 @@
-package com.jhlee.rongame.presentation.game
+package com.jhlee.rongame.presentation.game.basic
 
 import com.jhlee.rongame.domain.model.Card
 import com.jhlee.rongame.domain.model.GameStage

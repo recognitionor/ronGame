@@ -1,4 +1,4 @@
-package com.jhlee.rongame.presentation.game
+package com.jhlee.rongame.presentation.game.basic
 
 data class GameBattleState(
     val viewMode: Int = VIEW_MODE_DEFAULT,
