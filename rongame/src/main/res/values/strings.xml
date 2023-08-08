@@ -87,6 +87,8 @@
     <string name="etc_attend_btn">출석 체크 하면 300원 드려요~</string>
     <string name="etc_mini_game_quiz">정답을 맞추어 볼까?</string>
     <string name="etc_attend_done">오늘 출석 완료</string>
+    <string name="etc_result_dialog_title">총 %d 문제 중 %d 맞추었습니다.</string>
+    <string name="etc_result_dialog_content">총 %d 원을 획득 하셨습니다.</string>
 
 
 

@@ -20,9 +20,7 @@ interface DBGameStageDao {
 
     @Transaction
     suspend fun updateStatusAndReturnList(map: HashMap<Int, Int>): List<DBGameStage> {
-        Log.d("jhlee", "updateStatusAndReturnList")
         map.forEach {
-            Log.d("jhlee", "$it")
             updateStatus(it.key, it.value)
         }
         return getList()

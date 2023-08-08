@@ -15,11 +15,9 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,7 +28,7 @@ import androidx.compose.ui.unit.sp
 import java.util.Calendar
 
 @Composable
-fun CalendarScreen(attendViewModel: AttendViewModel) {
+fun CalendarScreen(attendViewModel: EtcViewModel) {
     val year by remember { mutableStateOf(Calendar.getInstance().get(Calendar.YEAR)) }
     val month by remember { mutableStateOf(Calendar.getInstance().get(Calendar.MONTH) + 1) }
     Column(
@@ -61,7 +59,7 @@ fun CalendarScreen(attendViewModel: AttendViewModel) {
 }
 
 @Composable
-fun Calendar(year: Int, month: Int, attendViewModel: AttendViewModel, dateList: List<String>) {
+fun Calendar(year: Int, month: Int, attendViewModel: EtcViewModel, dateList: List<String>) {
     val calendar = Calendar.getInstance()
     calendar.set(year, month - 1, 1)
 
@@ -102,8 +100,6 @@ fun Calendar(year: Int, month: Int, attendViewModel: AttendViewModel, dateList: 
                                 "%02d", dayOfMonth
                             )
                         }"
-                        Log.d("jhlee", "data : $date")
-                        Log.d("jhlee", "data2 : $dateList")
                         Surface(
                             color = if (dateList.contains(date)) Color.Black else Color.White,
                             shape = CircleShape,

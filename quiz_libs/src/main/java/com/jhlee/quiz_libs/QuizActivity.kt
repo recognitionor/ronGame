@@ -42,7 +42,8 @@ class QuizActivity : AppCompatActivity() {
             val tempList = intent.getParcelableArrayListExtra(QUIZ_LIST_EXTRA, Quiz::class.java)
             tempList?.let { quizList.addAll(it) }
         } else {
-            val tempList = intent.getParcelableArrayExtra(QUIZ_LIST_EXTRA)
+            val tempList = intent.extras?.getParcelableArrayList<Quiz>(QUIZ_LIST_EXTRA)
+
             if (tempList != null) {
                 // Parcelable 배열을 ArrayList<Quiz>로 변환
                 for (parcelable in tempList) {

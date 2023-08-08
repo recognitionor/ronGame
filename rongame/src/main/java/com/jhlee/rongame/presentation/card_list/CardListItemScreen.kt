@@ -165,12 +165,12 @@ fun CardListItemScreen(
                 StarRatingBar(((card.grade.plus(1)) ?: 0), color, 12.dp)
             }
         }
-    }// 다이얼로그 표시
+    }
+    // 다이얼로그 표시
     if (showInfoDialog.value) {
         CardDetailDialog(card) {
             showInfoDialog.value = false
         }
-
     }
 
 }

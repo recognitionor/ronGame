@@ -23,8 +23,6 @@ class QuizFragment(private val quizList: ArrayList<Quiz>) : Fragment() {
 
     lateinit var quizViewModel: QuizViewModel
 
-    var selectList: HashMap<Quiz, Int> = hashMapOf()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = LayoutQuizBinding.inflate(layoutInflater)
@@ -40,7 +38,8 @@ class QuizFragment(private val quizList: ArrayList<Quiz>) : Fragment() {
             adapter = ChoiceAdapter(it, object : ChoiceAdapter.OnItemClickListener {
                 override fun onItemClick(position: Int) {
                     if (quizViewModel.isValidTime.value == true) {
-                        selectList[quizList[quizViewModel.quizIndex]] = position
+                        quizList[quizViewModel.quizIndex] =
+                            quizList[quizViewModel.quizIndex].copy(selected = position + 1)
                         quizViewModel.selectAnswer(position)
                     }
                 }
@@ -66,7 +65,7 @@ class QuizFragment(private val quizList: ArrayList<Quiz>) : Fragment() {
             binding.quizQuestionTv.text = it.question
             binding.quizLevelStarView.setRatingStar(it.level)
             binding.quizLevelStarView.setRatingStar(it.level)
-            binding.timeProgressbar.max = it.time.toInt()
+            binding.timeProgressbar.max = it.time.toInt() * 1000
             adapter.refreshList(it)
         }
         quizViewModel.chance.observe(this) {
@@ -89,7 +88,7 @@ class QuizFragment(private val quizList: ArrayList<Quiz>) : Fragment() {
                 } else {
                     binding.timeProgressbar.progress = it.toInt()
                 }
-                binding.timeTv.text = ((it / 1000).plus(1)).toString()
+                binding.timeTv.text = ((it / 1000)).toString()
             }
         }
 
@@ -102,6 +101,9 @@ class QuizFragment(private val quizList: ArrayList<Quiz>) : Fragment() {
 
                 QuizViewModel.QUIZ_RESULT_STATE_SUCCESS -> {
                     AlertDialog.Builder(requireContext()).apply {
+                        quizList[quizViewModel.quizIndex] = quizList[quizViewModel.quizIndex].copy(
+                            durationTime = quizViewModel.time.value ?: 0
+                        )
                         val isDone = quizViewModel.quizIndex + 1 >= quizList.size
                         val btnText = if (isDone) {
                             getString(R.string.quiz_done)
@@ -123,6 +125,9 @@ class QuizFragment(private val quizList: ArrayList<Quiz>) : Fragment() {
 
                 QuizViewModel.QUIZ_RESULT_STATE_FAIL -> {
                     AlertDialog.Builder(requireContext()).apply {
+                        quizList[quizViewModel.quizIndex] = quizList[quizViewModel.quizIndex].copy(
+                            durationTime = quizViewModel.time.value ?: 0
+                        )
                         val isDone = quizViewModel.quizIndex + 1 >= quizList.size
                         val btnText = if (isDone) {
                             getString(R.string.quiz_done)
@@ -151,7 +156,7 @@ class QuizFragment(private val quizList: ArrayList<Quiz>) : Fragment() {
 
     private fun finishFragment() {
         val intent = Intent()
-        intent.putExtra(QuizActivity.QUIZ_ANSWER_EXTRA, selectList)
+        intent.putExtra(QuizActivity.QUIZ_ANSWER_EXTRA, quizList)
         requireActivity().setResult(QuizActivity.QUIZ_RESULT_CODE, intent)
         requireActivity().finish()
     }

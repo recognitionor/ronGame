@@ -1,6 +1,5 @@
 package com.jhlee.quiz_libs.presentaion
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.jhlee.quiz_libs.domain.model.Quiz
@@ -29,10 +28,6 @@ class QuizViewModel(private val quizList: ArrayList<Quiz>) : ViewModel() {
         const val QUIZ_RESULT_STATE_FAIL = 0
 
         const val QUIZ_RESULT_STATE_DONE = 2
-    }
-
-    init {
-//        startQuiz()
     }
 
     fun selectAnswer(index: Int) {
@@ -72,15 +67,17 @@ class QuizViewModel(private val quizList: ArrayList<Quiz>) : ViewModel() {
     fun startQuiz() {
         val currentTime = System.currentTimeMillis()
         isValidTime.postValue(true)
+        val limitTime = (quiz.value?.time?.times(1000L)) ?: 0
         Thread {
             while (resultState.value == QUIZ_RESULT_STATE_READY) {
                 val elapsedTime = System.currentTimeMillis() - currentTime
-                if (elapsedTime > (quiz.value?.time ?: 0)) {
+                if (elapsedTime > limitTime) {
                     break
                 }
                 time.postValue(elapsedTime)
                 Thread.sleep(50)
             }
+            time.postValue(System.currentTimeMillis() - currentTime)
             isValidTime.postValue(false)
             if (resultState.value == QUIZ_RESULT_STATE_READY) {
                 resultState.postValue(QUIZ_RESULT_STATE_FAIL)

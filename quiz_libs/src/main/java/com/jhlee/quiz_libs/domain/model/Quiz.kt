@@ -14,7 +14,9 @@ data class Quiz(
     val choiceList: List<String>,
     val time: Long,
     val chance: Int,
-    val reward: Int
+    val reward: Int,
+    val selected: Int = -1,
+    val durationTime: Long = -1
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
@@ -26,7 +28,9 @@ data class Quiz(
         parcel.createStringArrayList() ?: emptyList(),
         parcel.readLong(),
         parcel.readInt(),
-        parcel.readInt()
+        parcel.readInt(),
+        parcel.readInt(),
+        parcel.readLong()
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -40,6 +44,8 @@ data class Quiz(
         parcel.writeLong(time)
         parcel.writeInt(chance)
         parcel.writeInt(reward)
+        parcel.writeInt(selected)
+        parcel.writeLong(durationTime)
     }
 
     override fun describeContents(): Int {
