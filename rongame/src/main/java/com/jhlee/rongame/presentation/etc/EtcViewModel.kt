@@ -43,7 +43,6 @@ class EtcViewModel @Inject constructor(
                 is Resource.Success -> {
 
                     result.data?.let {
-                        Log.d("jhlee", "test  : $it")
                         _state.value = _state.value.copy(quizList = it)
                     }
                 }
