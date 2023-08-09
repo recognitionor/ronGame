@@ -88,8 +88,8 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/quiz_question_tv"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:padding="24dp"
+            android:layout_height="match_parent"
+            android:padding="12dp"
             android:textSize="16sp" />
     </androidx.core.widget.NestedScrollView>
 

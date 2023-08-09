@@ -67,7 +67,6 @@ fun EtcScreen() {
                 resultLauncher.launch(Intent(ctx, QuizActivity::class.java).apply {
                     val list: ArrayList<Quiz> = arrayListOf()
                     list.addAll(etcViewModel.state.value.quizList)
-                    Log.d("jhlee", "list : $list")
                     this.putExtra(QuizActivity.QUIZ_LIST_EXTRA, list)
                 })
             }) {
@@ -79,6 +78,7 @@ fun EtcScreen() {
                 QuizResultDialog(quizResultList) {
                     showInfoDialog.value = false
                     etcViewModel.rewardUpdate(it)
+                    etcViewModel.getQuizList()
                 }
             }
         }

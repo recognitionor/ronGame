@@ -36,7 +36,7 @@ class EtcViewModel @Inject constructor(
         createQuizListUseCase().onEach { }.launchIn(viewModelScope)
     }
 
-    private fun getQuizList() {
+    fun getQuizList() {
         getQuizListUseCase().onEach { result ->
             when (result) {
                 is Resource.Success -> {

@@ -1,11 +1,11 @@
 package com.jhlee.rongame.presentation.card
 
-import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jhlee.rongame.common.Resource
+import com.jhlee.rongame.common.constants.GatchaConst
 import com.jhlee.rongame.domain.usecase.card.CreateCardUseCase
 import com.jhlee.rongame.domain.usecase.user.GetUserInfoUseCase
 import com.jhlee.rongame.domain.usecase.user.UpdateUserMoneyUseCase
@@ -51,7 +51,7 @@ class CardViewModel @Inject constructor(
     }
 
     private fun updateUserInfo() {
-        updateUserInfoUseCase(-100).onEach { result ->
+        updateUserInfoUseCase(-GatchaConst.GATCHA_COST).onEach { result ->
             when (result) {
                 is Resource.Success -> {
                     refreshUserInfo()

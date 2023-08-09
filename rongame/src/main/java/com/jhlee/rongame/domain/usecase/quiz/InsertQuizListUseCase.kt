@@ -55,7 +55,7 @@ class InsertQuizListUseCase @Inject constructor(private val quizRepository: Quiz
             imageUrl = "",
             answer = 3,
             question = "말은 영어로 뭐니?",
-            choiceList = listOf("dog(도그)", "cat(캣)", "horse(호스)", "duck(덕)", "bird(버드)"),
+            choiceList = listOf("dog(도그)", "cat(캣)", "horse(홀스)", "duck(덕)", "bird(버드)"),
             time = 15,
             chance = 1,
             reward = 100
@@ -345,7 +345,7 @@ class InsertQuizListUseCase @Inject constructor(private val quizRepository: Quiz
             level = 2,
             imageUrl = "",
             answer = 4,
-            question = "두 개의 주사위를 던집니다. 각 주사위에는 1부터 6까지의 눈금이 있습니다. 이 두 주사위를 던져서 합할 더할때 , 나올수 있는 가장 큰수는",
+            question = "두 개의 주사위를 던집니다. 각 주사위에는 1부터 6까지의 눈금이 있습니다. 이 두 주사위를 던져서 합할 더할때 , 나올수 있는 가장 큰수는?",
             choiceList = listOf(
                 "9", "10", "11", "12", "13"
             ),
@@ -396,10 +396,10 @@ class InsertQuizListUseCase @Inject constructor(private val quizRepository: Quiz
             category = "상식",
             level = 1,
             imageUrl = "",
-            answer = 1,
-            question = "지금 땅이 흔들거리고 건물이 흔들거립니다. 무슨일이 일어난것일까요?",
+            answer = 2,
+            question = "구름과 구름, 구름과 지표면 사이에서 공중 전기의 방전이 일어나 만들어지는 불꽃 비가 올때 주로 하늘에서 볼수 있으며 이것이 보이면 매우 위험해요\n무슨 현상 일까요?",
             choiceList = listOf(
-                "바람이 분다.", "비가 내림", "눈이 오고 있음", "지진", "너무 더움"
+                "바람이 분다.", "번개가 치고 있음", "눈이 오고 있음", "지진", "너무 더움"
             ),
             time = 15,
             chance = 1,
@@ -417,8 +417,19 @@ class InsertQuizListUseCase @Inject constructor(private val quizRepository: Quiz
             time = 15,
             chance = 1,
             reward = 100
+        ), Quiz(
+            id = 34,
+            category = "국어",
+            level = 4,
+            imageUrl = "",
+            answer = 4,
+            question = "다음중 올바른 높임말로 짝지어져 있지 않은것은?",
+            choiceList = listOf(
+                "엄마-어머니", "아빠-아버지", "밥-식사", "공-볼", "먹어-드세요"
+            ),
+            time = 15,
+            chance = 1,
+            reward = 150
         )
-
-
     )
 }

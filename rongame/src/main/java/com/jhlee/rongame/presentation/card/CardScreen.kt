@@ -27,6 +27,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jhlee.rongame.R
+import com.jhlee.rongame.common.constants.GatchaConst
 import com.jhlee.rongame.common.utils.GameUtils
 import com.jhlee.rongame.common.constants.GradeConst
 import com.jhlee.rongame.presentation.common.StarRatingBar
@@ -78,7 +79,7 @@ fun CardScreen(
             .padding(10.dp)
             .border(width = 4.dp, color = color, shape = RoundedCornerShape(8.dp))
             .clickable {
-                if ((userStateValue.user?.money ?: 0) > 0) {
+                if ((userStateValue.user?.money ?: 0) > GatchaConst.GATCHA_COST) {
                     cardViewModel.gatchaCard()
                 } else {
                     Toast
