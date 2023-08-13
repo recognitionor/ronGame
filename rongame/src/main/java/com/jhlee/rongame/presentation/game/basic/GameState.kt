@@ -8,6 +8,7 @@ data class GameState(
     val isGameStageLoadDone: Boolean = false,
     val cardList: List<Card> = emptyList(),
     val usedCardCount: Int = 0,
+    val usedCardCost: Int = 0,
     val selectedGameStage: GameStage? = null,
     val selectedCardList: List<Card?> = emptyList(),
     val error: String = "",

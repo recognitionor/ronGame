@@ -26,6 +26,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jhlee.rongame.R
+import com.jhlee.rongame.common.constants.RuleConst
 import com.jhlee.rongame.domain.const.GameConst
 import com.jhlee.rongame.domain.model.Card
 import com.jhlee.rongame.domain.model.GameStage
@@ -47,6 +48,7 @@ fun GameBattleScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        val validCardCost = gameState.usedCardCost <= RuleConst.CARD_BATTLE_MAX_COST
         when (state.viewMode) {
             GameBattleState.VIEW_MODE_DEFAULT -> {
                 Text(
@@ -54,12 +56,18 @@ fun GameBattleScreen(
                         R.string.game_battle_current_round, (state.roundCount + 1)
                     )
                 )
-                Button(onClick = {
-                    selectedGameStage?.let {
-                        gameBattleViewModel.startRound(selectedCard, it, roundStartCallback)
-                    }
-                }) {
-                    Text(text = ctx.getString(R.string.start))
+                Button(
+                    onClick = {
+                        selectedGameStage?.let {
+                            gameBattleViewModel.startRound(selectedCard, it, roundStartCallback)
+                        }
+                    }, enabled = validCardCost
+                ) {
+                    Text(
+                        text = if (validCardCost) ctx.getString(R.string.start) else ctx.getString(
+                            R.string.game_battle_over_card_cost
+                        )
+                    )
                 }
             }
 

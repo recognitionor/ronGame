@@ -72,6 +72,7 @@
     <string name="game_battle_result_lost">패배</string>
     <string name="game_battle_result_get_reward">보상을 받으세요!\n %d 원</string>
     <string name="game_battle_result_lost_message">사용 하신 카드는 모두 사라집니다.</string>
+    <string name="game_battle_over_card_cost">카드의 총 비용이 초과 했습니다.</string>
 
     <string name="game_progress_min_attack">최소 공격(+정신력) : %d</string>
     <string name="game_progress_max_attack">최대 공격(-상대방 방어력) : %d</string>
@@ -83,6 +84,7 @@
     <string name="game_my_info_remain_hp">남은 체력 : %d</string>
     <string name="game_my_info_remain_turn">남은 기회 : %d</string>
     <string name="game_my_info_used_card">사용한 카드 : %d</string>
+    <string name="game_my_info_used_cost">사용한 총 비용 : %d</string>
 
     <string name="etc_attend_btn">출석 체크 하면 300원 드려요~</string>
     <string name="etc_mini_game_quiz">정답을 맞추어 볼까?</string>

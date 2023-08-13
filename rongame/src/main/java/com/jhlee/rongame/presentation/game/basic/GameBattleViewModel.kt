@@ -43,8 +43,7 @@ class GameBattleViewModel @Inject constructor(
             comRemainHp = selectedGameStage.id + offset
         )
     }
-
-    fun setMyRemainHp(selectedType: List<MutableState<Card?>>) {
+    fun updateMyRemainHp(selectedType: List<MutableState<Card?>>) {
         _state.value = _state.value.copy(
             myRemainHp = selectedType[GameConst.GAME_SELECTED_CARD_TYPE_HP].value?.hp ?: 0
         )
@@ -205,9 +204,6 @@ class GameBattleViewModel @Inject constructor(
     }
 
     private fun nextRound(selectedCard: List<MutableState<Card?>>, nextViewMode: Int) {
-        selectedCard.forEach {
-            it.value = null
-        }
         _state.value = _state.value.copy(
             viewMode = nextViewMode
         )

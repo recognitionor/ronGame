@@ -18,7 +18,7 @@ import com.jhlee.rongame.domain.model.Card
 
 @Composable
 fun GameSelectCardSlotScreen(
-    selectedCard: List<MutableState<Card?>>, selectedType: MutableState<Int>
+    selectedCard: List<MutableState<Card?>>, selectedType: MutableState<Int>, enableSelect: Boolean
 ) {
     val ctx = LocalContext.current
     Column {
@@ -33,13 +33,15 @@ fun GameSelectCardSlotScreen(
                 modifier = Modifier
                     .weight(1f)
                     .border(
-                        width = if (selectedType.value == 0) 3.dp else 1.dp,
-                        color = if (selectedType.value == 0) Color.Red else Color.Gray,
+                        width = if (selectedType.value == GameConst.GAME_SELECTED_CARD_TYPE_ATT && enableSelect) 3.dp else 1.dp,
+                        color = if (selectedType.value == GameConst.GAME_SELECTED_CARD_TYPE_ATT && enableSelect) Color.Red else Color.Gray,
                         shape = RoundedCornerShape(8.dp)
                     )
             ) {
-                selectedType.value = GameConst.GAME_SELECTED_CARD_TYPE_ATT
-                selectedCard[GameConst.GAME_SELECTED_CARD_TYPE_ATT].value = null
+                if (enableSelect) {
+                    selectedType.value = GameConst.GAME_SELECTED_CARD_TYPE_ATT
+                    selectedCard[GameConst.GAME_SELECTED_CARD_TYPE_ATT].value = null
+                }
             }
             GameSlotView(
                 GameConst.GAME_SELECTED_CARD_TYPE_DEF,
@@ -47,13 +49,15 @@ fun GameSelectCardSlotScreen(
                 modifier = Modifier
                     .weight(1f)
                     .border(
-                        width = if (selectedType.value == 1) 3.dp else 1.dp,
-                        color = if (selectedType.value == 1) Color.Red else Color.Gray,
+                        width = if (selectedType.value == GameConst.GAME_SELECTED_CARD_TYPE_DEF && enableSelect) 3.dp else 1.dp,
+                        color = if (selectedType.value == GameConst.GAME_SELECTED_CARD_TYPE_DEF && enableSelect) Color.Red else Color.Gray,
                         shape = RoundedCornerShape(8.dp)
                     )
             ) {
-                selectedType.value = GameConst.GAME_SELECTED_CARD_TYPE_DEF
-                selectedCard[GameConst.GAME_SELECTED_CARD_TYPE_DEF].value = null
+                if (enableSelect) {
+                    selectedType.value = GameConst.GAME_SELECTED_CARD_TYPE_DEF
+                    selectedCard[GameConst.GAME_SELECTED_CARD_TYPE_DEF].value = null
+                }
             }
             GameSlotView(
                 GameConst.GAME_SELECTED_CARD_TYPE_SPD,
@@ -61,14 +65,17 @@ fun GameSelectCardSlotScreen(
                 modifier = Modifier
                     .weight(1f)
                     .border(
-                        width = if (selectedType.value == 2) 3.dp else 1.dp,
-                        color = if (selectedType.value == 2) Color.Red else Color.Gray,
+                        width = if (selectedType.value == GameConst.GAME_SELECTED_CARD_TYPE_SPD && enableSelect) 3.dp else 1.dp,
+                        color = if (selectedType.value == GameConst.GAME_SELECTED_CARD_TYPE_SPD && enableSelect) Color.Red else Color.Gray,
                         shape = RoundedCornerShape(8.dp)
                     )
                     .padding(5.dp)
             ) {
-                selectedType.value = GameConst.GAME_SELECTED_CARD_TYPE_SPD
-                selectedCard[GameConst.GAME_SELECTED_CARD_TYPE_SPD].value = null
+                if (enableSelect) {
+                    selectedType.value = GameConst.GAME_SELECTED_CARD_TYPE_SPD
+                    selectedCard[GameConst.GAME_SELECTED_CARD_TYPE_SPD].value = null
+                }
+
             }
             GameSlotView(
                 GameConst.GAME_SELECTED_CARD_TYPE_HP,
@@ -76,14 +83,15 @@ fun GameSelectCardSlotScreen(
                 modifier = Modifier
                     .weight(1f)
                     .border(
-                        width = if (selectedType.value == 3) 3.dp else 1.dp,
-                        color = if (selectedType.value == 3) Color.Red else Color.Gray,
+                        width = if (selectedType.value == GameConst.GAME_SELECTED_CARD_TYPE_HP && enableSelect) 3.dp else 1.dp,
+                        color = if (selectedType.value == GameConst.GAME_SELECTED_CARD_TYPE_HP && enableSelect) Color.Red else Color.Gray,
                         shape = RoundedCornerShape(8.dp)
                     )
             ) {
-                selectedType.value = GameConst.GAME_SELECTED_CARD_TYPE_HP
-                selectedCard[GameConst.GAME_SELECTED_CARD_TYPE_HP].value = null
-
+                if (enableSelect) {
+                    selectedType.value = GameConst.GAME_SELECTED_CARD_TYPE_HP
+                    selectedCard[GameConst.GAME_SELECTED_CARD_TYPE_HP].value = null
+                }
             }
             GameSlotView(
                 GameConst.GAME_SELECTED_CARD_TYPE_MP,
@@ -91,13 +99,15 @@ fun GameSelectCardSlotScreen(
                 modifier = Modifier
                     .weight(1f)
                     .border(
-                        width = if (selectedType.value == 4) 3.dp else 1.dp,
-                        color = if (selectedType.value == 4) Color.Red else Color.Gray,
+                        width = if (selectedType.value == GameConst.GAME_SELECTED_CARD_TYPE_MP && enableSelect) 3.dp else 1.dp,
+                        color = if (selectedType.value == GameConst.GAME_SELECTED_CARD_TYPE_MP && enableSelect) Color.Red else Color.Gray,
                         shape = RoundedCornerShape(8.dp)
                     )
             ) {
-                selectedType.value = GameConst.GAME_SELECTED_CARD_TYPE_MP
-                selectedCard[GameConst.GAME_SELECTED_CARD_TYPE_MP].value = null
+                if (enableSelect) {
+                    selectedType.value = GameConst.GAME_SELECTED_CARD_TYPE_MP
+                    selectedCard[GameConst.GAME_SELECTED_CARD_TYPE_MP].value = null
+                }
             }
         }
     }

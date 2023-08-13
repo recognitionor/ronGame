@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import com.jhlee.rongame.R
 import com.jhlee.rongame.common.utils.GameUtils
 import com.jhlee.rongame.common.constants.GradeConst
+import com.jhlee.rongame.domain.const.GameConst
 import com.jhlee.rongame.domain.model.Card
 import com.jhlee.rongame.presentation.card.CardDetailDialog
 import com.jhlee.rongame.presentation.common.StarRatingBar
@@ -37,6 +38,7 @@ import com.jhlee.rongame.presentation.common.StarRatingBar
 @Composable
 fun CardListItemScreen(
     card: Card,
+    visibleInfoType: Int = -1,
     height: Float,
     selected: Boolean = false,
     isEnabled: Boolean = true,
@@ -122,6 +124,63 @@ fun CardListItemScreen(
                                 fontSize = 8.sp,
                                 color = textColor
                             )
+
+                            when (visibleInfoType) {
+                                GameConst.GAME_SELECTED_CARD_TYPE_ATT -> {
+                                    Text(
+                                        text = ctx.getString(
+                                            R.string.card_detail_att, card.attack
+                                        ),
+                                        textAlign = TextAlign.Right,
+                                        fontSize = 8.sp,
+                                        color = textColor
+                                    )
+                                }
+
+                                GameConst.GAME_SELECTED_CARD_TYPE_DEF -> {
+                                    Text(
+                                        text = ctx.getString(
+                                            R.string.card_detail_def, card.defense
+                                        ),
+                                        textAlign = TextAlign.Right,
+                                        fontSize = 8.sp,
+                                        color = textColor
+                                    )
+                                }
+
+                                GameConst.GAME_SELECTED_CARD_TYPE_SPD -> {
+                                    Text(
+                                        text = ctx.getString(
+                                            R.string.card_detail_spd, card.speed
+                                        ),
+                                        textAlign = TextAlign.Right,
+                                        fontSize = 8.sp,
+                                        color = textColor
+                                    )
+                                }
+
+                                GameConst.GAME_SELECTED_CARD_TYPE_HP -> {
+                                    Text(
+                                        text = ctx.getString(
+                                            R.string.card_detail_hp, card.hp
+                                        ),
+                                        textAlign = TextAlign.Right,
+                                        fontSize = 8.sp,
+                                        color = textColor
+                                    )
+                                }
+
+                                GameConst.GAME_SELECTED_CARD_TYPE_MP -> {
+                                    Text(
+                                        text = ctx.getString(
+                                            R.string.card_detail_mp, card.mp
+                                        ),
+                                        textAlign = TextAlign.Right,
+                                        fontSize = 8.sp,
+                                        color = textColor
+                                    )
+                                }
+                            }
                         }
 
                         Image(

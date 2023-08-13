@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.jhlee.rongame.R
+import com.jhlee.rongame.common.constants.RuleConst
 import com.jhlee.rongame.domain.model.Card
 import com.jhlee.rongame.presentation.card_list.CardListItemScreen
 
@@ -108,13 +109,21 @@ fun GameScreen(stageId: Int, activityFinish: () -> Unit) {
                     )
                     Text(
                         text = ctx.getString(
-                            R.string.game_my_info_remain_turn, 10 - gameBattleState.roundCount
+                            R.string.game_my_info_remain_turn,
+                            RuleConst.CARD_BATTLE_MAX_ROUND - gameBattleState.roundCount
                         )
                     )
                     Text(
                         text = ctx.getString(
                             R.string.game_my_info_used_card, gameState.usedCardCount
                         )
+                    )
+                    Text(
+                        text = ctx.getString(
+                            R.string.game_my_info_used_cost, gameState.usedCardCost
+                        ),
+                        color = if (gameState.usedCardCost > RuleConst.CARD_BATTLE_MAX_COST) Color.Red else Color.Black
+
                     )
                 }
                 Column(
@@ -179,59 +188,63 @@ fun GameScreen(stageId: Int, activityFinish: () -> Unit) {
 
             Column(Modifier.weight(1f)) {
                 GameBattleScreen(
-                    gameState,
-                    selectedCard,
-                    gameState.selectedGameStage,
-                    gameBattleViewModel
+                    gameState, selectedCard, gameState.selectedGameStage, gameBattleViewModel
                 ) {
                     gameViewModel.updateSelectedCardList(selectedCard)
                 }
             }
             if (gameBattleViewModel.state.value.viewMode == GameBattleState.VIEW_MODE_DEFAULT) {
-                GameSelectCardSlotScreen(selectedCard, selectedType)
-                val selectedCardType = when (selectedType.value) {
-                    0 -> {
-                        ctx.getString(R.string.game_att)
+                GameSelectCardSlotScreen(selectedCard, selectedType, gameBattleState.roundCount == 0)
+
+                if (gameBattleState.roundCount == 0) {
+                    val selectedCardType = when (selectedType.value) {
+                        0 -> {
+                            ctx.getString(R.string.game_att)
+                        }
+
+                        1 -> {
+                            ctx.getString(R.string.game_def)
+                        }
+
+                        2 -> {
+                            ctx.getString(R.string.game_speed)
+                        }
+
+                        3 -> {
+                            ctx.getString(R.string.game_hp)
+                        }
+
+                        else -> {
+                            ctx.getString(R.string.game_mp)
+                        }
                     }
+                    gameViewModel.updateCardCost(selectedCard)
 
-                    1 -> {
-                        ctx.getString(R.string.game_def)
-                    }
+                    Text(text = "$selectedCardType ${ctx.getString(R.string.game_selected_card_guid)}")
+                    Row {
+                        LazyRow(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(180.dp),
+                        ) {
+                            items(gameState.cardList) { item ->
 
-                    2 -> {
-                        ctx.getString(R.string.game_speed)
-                    }
-
-                    3 -> {
-                        ctx.getString(R.string.game_hp)
-                    }
-
-                    else -> {
-                        ctx.getString(R.string.game_mp)
-                    }
-                }
-
-                Text(text = "$selectedCardType ${ctx.getString(R.string.game_selected_card_guid)}")
-
-                Row {
-                    LazyRow(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(180.dp),
-                    ) {
-                        items(gameState.cardList) { item ->
-
-                            val selectedIndex = isSelectedCard(item, selectedCard)
-                            val isSelected = selectedIndex > -1
-                            val isEnabled = isEnabledCard(gameState.selectedCardList, item)
-                            CardListItemScreen(
-                                card = item, height = 180f, isSelected, isEnabled
-                            ) { card ->
-                                if (isSelected) {
-                                    selectedCard[selectedIndex].value = null
+                                val selectedIndex = isSelectedCard(item, selectedCard)
+                                val isSelected = selectedIndex > -1
+//                            val isEnabled = isEnabledCard(gameState.selectedCardList, item)
+                                CardListItemScreen(
+                                    card = item,
+                                    visibleInfoType = selectedType.value,
+                                    height = 180f,
+                                    isSelected,
+                                    true
+                                ) { card ->
+                                    if (isSelected) {
+                                        selectedCard[selectedIndex].value = null
+                                    }
+                                    selectedCard[selectedType.value].value = card
+                                    gameBattleViewModel.updateMyRemainHp(selectedCard)
                                 }
-                                selectedCard[selectedType.value].value = card
-                                gameBattleViewModel.setMyRemainHp(selectedCard)
                             }
                         }
                     }

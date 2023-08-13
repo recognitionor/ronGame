@@ -1,5 +1,6 @@
 package com.jhlee.rongame.presentation.game.basic
 
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -63,8 +64,10 @@ class GameViewModel @Inject constructor(
                 tempList.add(it)
             }
         }
+        var tempCost = 0;
         selectedCard.forEach {
             it.value?.let { card ->
+                tempCost += card.cost
                 if (!tempList.contains(card)) {
                     tempList.add(card)
                 }
@@ -72,7 +75,8 @@ class GameViewModel @Inject constructor(
         }
         _state.value = _state.value.copy(
             selectedCardList = tempList,
-            usedCardCount = _state.value.usedCardCount.plus(tempList.size)
+            usedCardCount = _state.value.usedCardCount.plus(tempList.size),
+            usedCardCost = tempCost
         )
     }
 
@@ -95,5 +99,13 @@ class GameViewModel @Inject constructor(
                 }
             }
         }.launchIn(viewModelScope)
+    }
+
+    fun updateCardCost(card: List<MutableState<Card?>>) {
+        var totalCost = 0;
+        card.forEach {
+            totalCost = totalCost.plus(it.value?.cost ?: 0)
+        }
+        _state.value = _state.value.copy(usedCardCost = totalCost)
     }
 }
