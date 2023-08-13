@@ -101,6 +101,7 @@ class QuizFragment(private val quizList: ArrayList<Quiz>) : Fragment() {
 
                 QuizViewModel.QUIZ_RESULT_STATE_SUCCESS -> {
                     AlertDialog.Builder(requireContext()).apply {
+                        setCancelable(false)
                         quizList[quizViewModel.quizIndex] = quizList[quizViewModel.quizIndex].copy(
                             durationTime = quizViewModel.time.value ?: 0
                         )
@@ -125,6 +126,7 @@ class QuizFragment(private val quizList: ArrayList<Quiz>) : Fragment() {
 
                 QuizViewModel.QUIZ_RESULT_STATE_FAIL -> {
                     AlertDialog.Builder(requireContext()).apply {
+                        setCancelable(false)
                         quizList[quizViewModel.quizIndex] = quizList[quizViewModel.quizIndex].copy(
                             durationTime = quizViewModel.time.value ?: 0
                         )
