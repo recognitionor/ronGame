@@ -1,5 +1,6 @@
 package com.jhlee.rongame.presentation.card
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -46,8 +47,20 @@ class CardViewModel @Inject constructor(
         setShowInfoDialog(false)
     }
 
+    fun refreshDoneUserInfo() {
+        _state.value = _state.value.copy(updateUserInfo = false)
+    }
+
     private fun refreshUserInfo() {
-        getUserInfoUseCase().onEach { }.launchIn(viewModelScope)
+        getUserInfoUseCase().onEach { result ->
+            when (result) {
+                is Resource.Success -> {
+                    _state.value = _state.value.copy(updateUserInfo = true)
+                }
+
+                else -> {}
+            }
+        }.launchIn(viewModelScope)
     }
 
     private fun updateUserInfo() {
@@ -79,9 +92,9 @@ class CardViewModel @Inject constructor(
             when (result) {
                 is Resource.Success -> {
                     if (result.data != null) {
+                        updateUserInfo()
                         _state.value =
                             CardState(isLoading = false, isLoadDone = false, card = result.data)
-                        updateUserInfo()
                     } else {
                         _state.value = CardState(
                             isLoading = false,

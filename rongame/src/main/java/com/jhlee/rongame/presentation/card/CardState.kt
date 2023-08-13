@@ -5,6 +5,7 @@ import com.jhlee.rongame.domain.model.Card
 data class CardState(
     val isLoading: Boolean = false,
     val isLoadDone: Boolean = false,
+    val updateUserInfo: Boolean = false,
     val card: Card? = null,
     val error: String = "",
     val progress: Int = 0

@@ -11,7 +11,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.fontResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -41,6 +40,10 @@ fun HomeScreen() {
             .fillMaxHeight()
             .padding(bottom = 70.dp, start = 16.dp, end = 16.dp)
     ) {
+        if (cardViewModel.state.value.updateUserInfo) {
+            userInfoViewModel.getUser()
+            cardViewModel.refreshDoneUserInfo()
+        }
         UserInfoScreen(userInfoViewModel)
         Row(
             Modifier.fillMaxWidth(),
