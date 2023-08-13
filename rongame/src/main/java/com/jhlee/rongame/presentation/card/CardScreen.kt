@@ -79,7 +79,7 @@ fun CardScreen(
             .padding(10.dp)
             .border(width = 4.dp, color = color, shape = RoundedCornerShape(8.dp))
             .clickable {
-                if ((userStateValue.user?.money ?: 0) > GatchaConst.GATCHA_COST) {
+                if ((userStateValue.user?.money ?: 0) >= GatchaConst.GATCHA_COST) {
                     cardViewModel.gatchaCard()
                 } else {
                     Toast
