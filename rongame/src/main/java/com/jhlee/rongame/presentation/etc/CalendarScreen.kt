@@ -53,7 +53,6 @@ fun CalendarScreen(attendViewModel: EtcViewModel) {
         }
 
         Spacer(modifier = Modifier.height(16.dp))
-        Log.d("jhlee", "${attendViewModel.state.value.dateList}")
         Calendar(year, month, attendViewModel, attendViewModel.state.value.dateList)
     }
 }

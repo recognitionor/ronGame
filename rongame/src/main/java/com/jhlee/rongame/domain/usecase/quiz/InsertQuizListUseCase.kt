@@ -12,7 +12,7 @@ class InsertQuizListUseCase @Inject constructor(private val quizRepository: Quiz
         emit(Resource.Loading<List<Quiz>>())
         try {
             quizRepository.insertQuiz(quizList)
-            val result = quizRepository.getQuizList()
+            val result = quizRepository.getQuizListAll()
             emit(Resource.Success<List<Quiz>>(result))
         } catch (e: Exception) {
             emit(Resource.Error<List<Quiz>>(e.message.toString()))
@@ -430,6 +430,19 @@ class InsertQuizListUseCase @Inject constructor(private val quizRepository: Quiz
             time = 15,
             chance = 1,
             reward = 150
+        ), Quiz(
+            id = 35,
+            category = "다음중 공이 가장 큰것은?",
+            level = 2,
+            imageUrl = "",
+            answer = 4,
+            question = "다음중 올바른 높임말로 짝지어져 있지 않은것은?",
+            choiceList = listOf(
+                "탁구공", "축구공", "테니스공", "농구공", "야구공"
+            ),
+            time = 15,
+            chance = 1,
+            reward = 100
         )
     )
 }

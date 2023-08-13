@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jhlee.rongame.common.Resource
+import com.jhlee.rongame.domain.const.QuizConst
 import com.jhlee.rongame.domain.usecase.attend.CreateAttendUseCase
 import com.jhlee.rongame.domain.usecase.attend.GetAttendUseCase
 import com.jhlee.rongame.domain.usecase.quiz.GetQuizListUseCase
@@ -37,10 +38,9 @@ class EtcViewModel @Inject constructor(
     }
 
     fun getQuizList() {
-        getQuizListUseCase().onEach { result ->
+        getQuizListUseCase(QuizConst.QUIZ_LIMIT_COUNT).onEach { result ->
             when (result) {
                 is Resource.Success -> {
-
                     result.data?.let {
                         _state.value = _state.value.copy(quizList = it)
                     }

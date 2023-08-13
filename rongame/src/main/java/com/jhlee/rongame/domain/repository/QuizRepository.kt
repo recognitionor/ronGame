@@ -7,5 +7,7 @@ interface QuizRepository {
 
     suspend fun updateQuiz(quiz: Quiz)
 
-    suspend fun getQuizList(): List<Quiz>
+    suspend fun getQuizList(limit: Int): List<Quiz>
+
+    suspend fun getQuizListAll(): List<Quiz>
 }

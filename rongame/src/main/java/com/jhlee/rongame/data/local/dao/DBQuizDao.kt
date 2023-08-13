@@ -12,9 +12,11 @@ interface DBQuizDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertQuizList(quizList: List<DBQuiz>): List<Long>
 
-    @Query("SELECT * FROM DBQuiz WHERE status = 0 ORDER BY RANDOM() LIMIT 3")
-//    @Query("SELECT * FROM DBQuiz WHERE id IN (28, 30, 32)")
-    suspend fun getQuizList(): List<DBQuiz>
+    @Query("SELECT * FROM DBQuiz WHERE status = 0 ORDER BY RANDOM() LIMIT :limit")
+    suspend fun getQuizList(limit: Int): List<DBQuiz>
+
+    @Query("SELECT * FROM DBQuiz")
+    suspend fun getQuizListAll(): List<DBQuiz>
 
     @Update
     suspend fun updateQuiz(quiz: DBQuiz)

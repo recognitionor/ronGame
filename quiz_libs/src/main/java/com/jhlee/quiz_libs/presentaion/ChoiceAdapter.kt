@@ -77,7 +77,6 @@ class ChoiceAdapter(var quiz: Quiz, private val listener: OnItemClickListener) :
     fun refreshList(quiz: Quiz) {
         this.quiz = quiz
         itemStatusMap.clear()
-        Log.d("jhlee", "refreshList : $quiz")
         notifyDataSetChanged()
     }
 }

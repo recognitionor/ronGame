@@ -1,5 +1,6 @@
 package com.jhlee.rongame.presentation.splash
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -31,7 +32,15 @@ class SplashViewModel @Inject constructor(
     }
 
     private fun insertQuizList() {
-        insertQuizListUseCase().launchIn(viewModelScope)
+        insertQuizListUseCase().onEach { result ->
+            when (result) {
+                is Resource.Success -> {
+                }
+
+                is Resource.Error -> {}
+                is Resource.Loading -> {}
+            }
+        }.launchIn(viewModelScope)
     }
 
     fun insertUserInfo(userInfo: UserInfo) {

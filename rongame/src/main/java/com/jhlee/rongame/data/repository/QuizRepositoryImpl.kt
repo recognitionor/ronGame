@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 class QuizRepositoryImpl @Inject constructor(private val dao: DBQuizDao) : QuizRepository {
     override suspend fun insertQuiz(list: List<Quiz>) {
-       val tempList =  list.map { quiz ->
+        val tempList = list.map { quiz ->
             DBQuiz(
                 id = quiz.id,
                 category = quiz.category,
@@ -45,5 +45,6 @@ class QuizRepositoryImpl @Inject constructor(private val dao: DBQuizDao) : QuizR
     )
 
 
-    override suspend fun getQuizList(): List<Quiz> = dao.getQuizList().map { it.toQuiz() }
+    override suspend fun getQuizList(limit: Int): List<Quiz> = dao.getQuizList(limit).map { it.toQuiz() }
+    override suspend fun getQuizListAll(): List<Quiz> = dao.getQuizListAll().map { it.toQuiz() }
 }
