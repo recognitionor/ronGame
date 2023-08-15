@@ -5,8 +5,10 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.jhlee.quiz_libs.domain.model.Quiz
 import com.jhlee.rongame.common.Resource
 import com.jhlee.rongame.domain.model.UserInfo
+import com.jhlee.rongame.domain.usecase.quiz.GetQuizListAllUseCase
 import com.jhlee.rongame.domain.usecase.quiz.InsertQuizListUseCase
 import com.jhlee.rongame.domain.usecase.user.GetUserInfoUseCase
 import com.jhlee.rongame.domain.usecase.user.InsertUserInfoUseCase
@@ -19,7 +21,8 @@ import javax.inject.Inject
 class SplashViewModel @Inject constructor(
     private val getUserInfoUseCase: GetUserInfoUseCase,
     private val insertUserInfoUseCase: InsertUserInfoUseCase,
-    private val insertQuizListUseCase: InsertQuizListUseCase
+    private val insertQuizListUseCase: InsertQuizListUseCase,
+    private val getQuizListAllUseCase: GetQuizListAllUseCase
 ) : ViewModel() {
 
     private val _state = mutableStateOf(SplashState())
@@ -28,11 +31,26 @@ class SplashViewModel @Inject constructor(
 
     init {
         getUserInfo()
-        insertQuizList()
+        getQuizListAll()
     }
 
-    private fun insertQuizList() {
-        insertQuizListUseCase().onEach { result ->
+    private fun getQuizListAll() {
+        getQuizListAllUseCase().onEach { result ->
+            when (result) {
+                is Resource.Success -> {
+                    result.data?.let {
+                        insertQuizList(result.data)
+                    }
+                }
+
+                is Resource.Error -> {}
+                is Resource.Loading -> {}
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    private fun insertQuizList(insertList: List<Quiz>) {
+        insertQuizListUseCase(insertList).onEach { result ->
             when (result) {
                 is Resource.Success -> {
                 }

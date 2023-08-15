@@ -1,6 +1,5 @@
 package com.jhlee.rongame.data.repository
 
-import android.util.Log
 import com.jhlee.rongame.data.local.dao.DBCardDao
 import com.jhlee.rongame.data.local.entity.DBCard
 import com.jhlee.rongame.data.local.entity.toCard
@@ -8,7 +7,7 @@ import com.jhlee.rongame.domain.model.Card
 import com.jhlee.rongame.domain.repository.CardRepository
 import javax.inject.Inject
 
-class CardRepositoryImpl @Inject constructor(
+class DBCardRepositoryImpl @Inject constructor(
     private val cardDao: DBCardDao
 ) : CardRepository<Card> {
     override suspend fun createCard(card: Card): Card {

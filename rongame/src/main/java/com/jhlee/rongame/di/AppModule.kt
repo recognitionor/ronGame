@@ -1,6 +1,7 @@
 package com.jhlee.rongame.di
 
 import android.content.Context
+import com.google.firebase.storage.FirebaseStorage
 import com.jhlee.rongame.data.local.AppDatabase
 import com.jhlee.rongame.data.local.DatabaseBuilder
 import com.jhlee.rongame.data.local.dao.DBAttendDao
@@ -8,12 +9,14 @@ import com.jhlee.rongame.data.local.dao.DBCardDao
 import com.jhlee.rongame.data.local.dao.DBGameStageDao
 import com.jhlee.rongame.data.local.dao.DBQuizDao
 import com.jhlee.rongame.data.local.dao.DBUserInfoDao
-import com.jhlee.rongame.data.local.entity.DBAttend
-import com.jhlee.rongame.data.repository.AttendRepositoryImpl
-import com.jhlee.rongame.data.repository.CardRepositoryImpl
-import com.jhlee.rongame.data.repository.GameStageRepositoryImpl
-import com.jhlee.rongame.data.repository.QuizRepositoryImpl
-import com.jhlee.rongame.data.repository.UserRepositoryImpl
+import com.jhlee.rongame.data.remote.FBQuizRepositoryImpl
+import com.jhlee.rongame.data.remote.FirebaseRepository
+import com.jhlee.rongame.data.repository.DBAttendRepositoryImpl
+import com.jhlee.rongame.data.repository.DBCardRepositoryImpl
+import com.jhlee.rongame.data.repository.DBGameStageRepositoryImpl
+import com.jhlee.rongame.data.repository.DBQuizRepositoryImpl
+import com.jhlee.rongame.data.repository.DBUserRepositoryImpl
+import com.jhlee.rongame.data.repository.LocalRepository
 import com.jhlee.rongame.domain.model.Card
 import com.jhlee.rongame.domain.model.UserInfo
 import com.jhlee.rongame.domain.repository.AttendRepository
@@ -32,36 +35,42 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class AppModule {
-
+    @FirebaseRepository
+    @Singleton
+    @Provides
+    fun provideFirebaseRepository(): QuizRepository {
+        return FBQuizRepositoryImpl(FirebaseStorage.getInstance())
+    }
 
     @Provides
     @Singleton
     fun provideLocalCardRepository(cardDao: DBCardDao): CardRepository<Card> {
-        return CardRepositoryImpl(cardDao)
+        return DBCardRepositoryImpl(cardDao)
     }
 
     @Provides
     @Singleton
     fun provideLocalUserInfoRepository(dao: DBUserInfoDao): UserRepository<UserInfo> {
-        return UserRepositoryImpl(dao)
+        return DBUserRepositoryImpl(dao)
     }
 
     @Provides
     @Singleton
     fun provideLocalGameStageRepository(dao: DBGameStageDao): GameStageRepository {
-        return GameStageRepositoryImpl(dao)
+        return DBGameStageRepositoryImpl(dao)
     }
 
     @Provides
     @Singleton
     fun provideLocalAttendRepository(dao: DBAttendDao): AttendRepository {
-        return AttendRepositoryImpl(dao)
+        return DBAttendRepositoryImpl(dao)
     }
 
+    @LocalRepository
     @Provides
     @Singleton
     fun provideLocalQuizRepository(dao: DBQuizDao): QuizRepository {
-        return QuizRepositoryImpl(dao)
+        return DBQuizRepositoryImpl(dao)
     }
 
     @Provides

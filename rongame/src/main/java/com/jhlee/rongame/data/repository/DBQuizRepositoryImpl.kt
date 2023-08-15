@@ -7,8 +7,12 @@ import com.jhlee.rongame.data.local.entity.DBQuiz
 import com.jhlee.rongame.data.local.entity.toQuiz
 import com.jhlee.rongame.domain.repository.QuizRepository
 import javax.inject.Inject
-
-class QuizRepositoryImpl @Inject constructor(private val dao: DBQuizDao) : QuizRepository {
+import javax.inject.Qualifier
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class LocalRepository
+class DBQuizRepositoryImpl @Inject constructor(private val dao: DBQuizDao) : QuizRepository {
+    // 로컬 데이터베이스 리포지터리를 위한 Qualifier
     override suspend fun insertQuiz(list: List<Quiz>) {
         val tempList = list.map { quiz ->
             DBQuiz(

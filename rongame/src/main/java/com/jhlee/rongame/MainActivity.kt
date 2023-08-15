@@ -18,6 +18,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
+
         setContent {
             MaterialTheme(
                 colors = lightColors(primary = Color.Blue), Typography(

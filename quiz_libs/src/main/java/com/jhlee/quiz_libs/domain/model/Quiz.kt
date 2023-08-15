@@ -15,6 +15,7 @@ data class Quiz(
     val time: Long,
     val chance: Int,
     val reward: Int,
+    val description: String = "",
     val selected: Int = -1,
     val durationTime: Long = -1
 ) : Parcelable {
@@ -29,8 +30,10 @@ data class Quiz(
         parcel.readLong(),
         parcel.readInt(),
         parcel.readInt(),
+        parcel.readString() ?: "",
         parcel.readInt(),
-        parcel.readLong()
+        parcel.readLong(),
+
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -44,8 +47,10 @@ data class Quiz(
         parcel.writeLong(time)
         parcel.writeInt(chance)
         parcel.writeInt(reward)
+        parcel.writeString(description)
         parcel.writeInt(selected)
         parcel.writeLong(durationTime)
+
     }
 
     override fun describeContents(): Int {

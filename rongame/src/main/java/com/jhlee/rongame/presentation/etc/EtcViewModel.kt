@@ -21,7 +21,6 @@ class EtcViewModel @Inject constructor(
     private val createAttendUseCase: CreateAttendUseCase,
     private val updateUserMoneyUseCase: UpdateUserMoneyUseCase,
     private val getAttendUseCase: GetAttendUseCase,
-    private val createQuizListUseCase: InsertQuizListUseCase,
     private val getQuizListUseCase: GetQuizListUseCase
 ) : ViewModel() {
     private val _state = mutableStateOf(AttendState())
@@ -31,10 +30,6 @@ class EtcViewModel @Inject constructor(
     init {
         getAttendList()
         getQuizList()
-    }
-
-    private fun insertQuizList() {
-        createQuizListUseCase().onEach { }.launchIn(viewModelScope)
     }
 
     fun getQuizList() {

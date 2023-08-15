@@ -7,7 +7,7 @@ import com.jhlee.rongame.domain.model.UserInfo
 import com.jhlee.rongame.domain.repository.UserRepository
 import javax.inject.Inject
 
-class UserRepositoryImpl @Inject constructor(private val dao: DBUserInfoDao) :
+class DBUserRepositoryImpl @Inject constructor(private val dao: DBUserInfoDao) :
     UserRepository<UserInfo> {
 
     override suspend fun createUserInfo(user: UserInfo): UserInfo {

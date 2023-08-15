@@ -12,7 +12,7 @@ import com.jhlee.rongame.domain.repository.GameStageRepository
 import javax.inject.Inject
 
 
-class GameStageRepositoryImpl @Inject constructor(private val gameStageDao: DBGameStageDao) :
+class DBGameStageRepositoryImpl @Inject constructor(private val gameStageDao: DBGameStageDao) :
     GameStageRepository {
     override suspend fun insertGameStageList(list: List<GameStage>?): List<GameStage> {
         if (list == null) {
